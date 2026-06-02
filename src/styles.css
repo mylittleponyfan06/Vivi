@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Epilogue', sans-serif;
+    background: #ffffff;
+    color: #262626;
+  }
+}
+
+.music-paper {
+  background:
+    linear-gradient(to bottom, rgba(183,179,166,0.9) 0px, rgba(183,179,166,0.9) 2px, transparent 2px, transparent 22px),
+    radial-gradient(circle at 50% 50%, rgba(90,90,90,0.06), rgba(90,90,90,0.02) 45%, transparent 70%),
+    linear-gradient(180deg, rgba(246,243,232,0.95), rgba(232,228,215,0.96));
+  background-size: 100% 24px, 100% 100%, 100% 100%;
+  background-position: top left, center, center;
+  position: relative;
+  overflow: hidden;
+}
+
+.music-paper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 22% 24%, rgba(120,120,120,0.09), transparent 16%),
+    radial-gradient(circle at 58% 44%, rgba(120,120,120,0.07), transparent 19%),
+    radial-gradient(circle at 80% 68%, rgba(120,120,120,0.05), transparent 16%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.staff-notes {
+  letter-spacing: .12em;
+  color: rgba(80,76,69,.55);
+  font-size: clamp(2rem, 4vw, 4.5rem);
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.placeholder {
+  background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(220,220,220,.85));
+  border: 1px dashed rgba(0,0,0,.18);
+  color: rgba(38,38,38,.75);
+}
+
+.placeholder-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.logo-img,
+.skill-img,
+.hero-img,
+.work-img {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.tape-label {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14rem;
+  padding: 0.85rem 1.3rem;
+  background: rgba(244, 223, 141, 0.88);
+  color: #3b2e13;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  box-shadow: 0 10px 18px -10px rgba(0,0,0,0.28);
+  clip-path: polygon(0 11%, 7% 0, 93% 0, 100% 11%, 100% 89%, 93% 100%, 7% 100%, 0 89%);
+  border: 1px solid rgba(0,0,0,0.1);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.55);
+}
+
+.tape-label--black {
+  color: #1c1b19;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.tape-label--blue {
+  color: #0f2863;
+  font-family: 'Shadows Into Light', cursive;
+}
+
+.tape-label--alt {
+  color: #1c1b19;
+  font-family: 'Patrick Hand', cursive;
+}
+
+.tape-label--red {
+  color: #8b1c21;
+  font-family: 'Indie Flower', cursive;
+}
+
+.tape-label::before,
+.tape-label::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  width: 0.9rem;
+  height: 0.9rem;
+  background: #f7d556;
+  border: 1px solid rgba(0,0,0,0.12);
+  transform: rotate(45deg);
+}
+
+.tape-label::before {
+  left: -0.45rem;
+}
+
+.tape-label::after {
+  right: -0.45rem;
+}
+
+.poster-note {
+  font-family: 'Permanent Marker', cursive;
+  font-style: normal;
+}
+
+.poster-note--black {
+  color: #1c1b19;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.poster-note--blue {
+  color: #0f2863;
+  font-family: 'Shadows Into Light', cursive;
+  font-style: normal;
+}
+
+.poster-note--red {
+  color: #8b1c21;
+  font-family: 'Indie Flower', cursive;
+  font-style: normal;
+}
+
+.poster-note--alt {
+  font-family: 'Patrick Hand', cursive;
+  color: #1c1b19;
+  font-style: normal;
+}
+
+.work-card:hover .work-img,
+.skill-card:hover .skill-img,
+.hero-visual:hover .hero-img {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 30px rgba(0,0,0,.08);
+}
