@@ -8,17 +8,66 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Fontdiner+Swanky&family=Orbitron:wght@500;700&family=Permanent+Marker&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="modal-styles.css">
+  <style>
+    .hero-bounce:hover {
+      animation: bounce-sm 0.6s ease-in-out infinite;
+      outline: none;
+    }
+
+    .hero-bounce {
+      outline: none;
+      transform: translateX(-1rem);
+      will-change: transform;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    .hero-bounce.hero-following {
+      position: fixed;
+      z-index: 60;
+      cursor: grabbing;
+      transform: translate(-50%, -50%) scale(0.5) !important;
+      transition: transform 0.1s ease;
+    }
+
+    .hero-visual:hover .hero-img.no-hover-box,
+    .hero-img.no-hover-box:hover {
+      box-shadow: none !important;
+    }
+
+    @keyframes bounce-sm {
+      0%, 100% { transform: translateX(-1rem) translateY(0); }
+      25%, 75% { transform: translateX(-2rem) translateY(-5px); }
+      50% { transform: translateX(-2rem) translateY(-8px); }
+    }
+
+    /* Notes app file aesthetic (iOS-like shadow/backdrop, no border) */
+    .app-file-container{display:flex;gap:1rem;padding:1rem 1.5rem;align-items:center}
+    .app-file{display:inline-flex;flex-direction:column;align-items:center;gap:0.35rem;background:transparent;border:none;cursor:pointer}
+      .app-file-img{width:64px;height:64px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,251,250,0.9));box-shadow:0 10px 30px rgba(0,0,0,0.18),0 2px 8px rgba(0,0,0,0.08);border:none}
+    .app-file-label{font-size:0.82rem;color:#262626}
+    .app-file:active .app-file-img{transform:scale(0.96)}
+    .app-file:active{outline:none}
+    .app-file:focus{outline:none}
+    .app-file:focus-visible{outline:2px solid rgba(59,130,246,0.12);outline-offset:6px;border-radius:16px}
+
+    /* Notification badge (overlaps the app icon like iOS) */
+    .app-file{position:relative}
+    .app-file-badge{position:absolute;top:1px;right:-3px;min-width:18spx;height:18px;padding:0 6px;border-radius:9999px;background:#ef4444;color:#fff;font-weight:700;font-size:11px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(239,68,68,0.18);line-height:1;transform:translate(25%,-25%)}
+    .app-file-badge.hidden{display:none}
+  </style>
 </head>
 <body>
   <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
 
   <div class="mx-auto min-h-screen max-w-[1280px] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.06)]">
-    <header class="border-t-[10px] border-[#262626] bg-white/95 px-6 sm:px-10">
+    <header class="sticky top-0 z-50 border-t-[10px] border-[#262626] bg-white/95 backdrop-blur-sm px-6 sm:px-10">
       <div class="flex h-14 items-center justify-between">
         <div class="font-logo text-[2rem] leading-none text-ink">vivi</div>
         <nav aria-label="Primary" class="hidden gap-8 text-sm text-ink sm:flex">
           <a href="#about" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</a>
-          <a href="#hobbies" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Hobbies</a>
+          <a href="#Projects" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Hobbies</a>
           <a href="#contact" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Contact</a>
         </nav>
       </div>
@@ -40,7 +89,7 @@
     <div class="staff-notes -translate-x-6">𝄞 ♪ ♫ ♩ ♬ ♪ ♫ ♩ ♪ ♫</div>
   </div> -->
 
-  <div class="relative z-20 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+    <div class="relative z-20 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
     <div class="max-w-[34rem] pt-8 sm:pt-12">
       <p class="mb-6 text-base font-medium text-ink">Ihsan Nabil’s</p>
       <h1 class="font-display text-[clamp(3rem,7vw,5.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.04em] text-olive">
@@ -57,7 +106,7 @@
       <img
         src="assets/anomoclaris.gif"
         alt="anomoclaris hero visual"
-        class="hero-img h-auto w-[min(30vw,280px)] -translate-x-4 transform object-contain"
+        class="hero-img hero-bounce no-hover-box h-auto w-[min(30vw,280px)] -translate-x-4 transform object-contain focus:outline-none"
         loading="lazy"
         onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder hero-img flex h-[220px] w-[220px] items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hero image</div><div>anomoclaris.gif</div></div>'}))"
       >
@@ -65,34 +114,17 @@
   </div>
 </section>
 
-      <section class="bg-white px-6 py-10 sm:px-10 lg:px-14 group">
-        <div class="grid grid-cols-2 items-center justify-items-center gap-8 md:grid-cols-4 logo-grid">
-          <!-- replace src with: assets/logo-freshening.webp -->
-          <div class="logo-frame flex h-16 w-full max-w-[10rem] items-center justify-center">
-            <img src="assets/logo-freshening.webp" alt="Freshening Singapore logo" class="logo-img h-full w-auto max-w-full object-contain transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_20px_40px_-18px_rgba(0,0,0,0.35)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder logo-img flex h-full w-full items-center justify-center text-center px-3',innerHTML:'<div><div class='placeholder-label'>Logo</div><div class='text-xs normal-case tracking-normal'>logo-freshening.webp</div></div>'}))">
-          </div>
-
-          <!-- replace src with: assets/logo-baybeats.png -->
-          <div class="logo-frame flex h-16 w-full max-w-[10rem] items-center justify-center">
-            <img src="assets/logo-baybeats.png" alt="Baybeats logo" class="logo-img h-full w-auto max-w-full object-contain transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_20px_40px_-18px_rgba(0,0,0,0.35)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder logo-img flex h-full w-full items-center justify-center text-center px-3',innerHTML:'<div><div class='placeholder-label'>Logo</div><div class='text-xs normal-case tracking-normal'>logo-baybeats.png</div></div>'}))">
-          </div>
-
-          <!-- replace src with: assets/logo-ite-east.png -->
-          <div class="logo-frame flex h-16 w-full max-w-[10rem] items-center justify-center">
-            <img src="assets/logo-ite-east.avif
-          " alt="ITE College East logo" class="logo-img h-full w-auto max-w-full object-contain transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_20px_40px_-18px_rgba(0,0,0,0.35)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder logo-img flex h-full w-full items-center justify-center text-center px-3',innerHTML:'<div><div class='placeholder-label'>Logo</div><div class='text-xs normal-case tracking-normal'>logo-ite-east.png</div></div>'}))">
-          </div>
-
-          <!-- replace src with: assets/logo-nyp.png -->
-          <div class="logo-frame flex h-16 w-full max-w-[10rem] items-center justify-center">
-            <img src="assets/logo-nyp.jpg
-          " alt="Nanyang Polytechnic logo" class="logo-img h-full w-auto max-w-full object-contain transition-all duration-300 ease-out hover:scale-110 hover:shadow-[0_20px_40px_-18px_rgba(0,0,0,0.35)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder logo-img flex h-full w-full items-center justify-center text-center px-3',innerHTML:'<div><div class=\'placeholder-label\'>Logo</div><div class=\'text-xs normal-case tracking-normal\'>logo-nyp.png</div></div>'}))">
-          </div>
-        </div>
-      </section>
-
       <section id="hobbies" class="bg-white px-6 pb-8 pt-4 sm:px-10 lg:px-14">
         <div class="mb-10 text-center text-2xl font-semibold text-black">(･ω･)つ ──────────── ⊂(･ω･)</div>
+        <div class="mt-6 flex justify-center">
+          <div class="app-file-container" aria-hidden="false">
+            <button id="notesAppButton" class="app-file" aria-label="Open Notes app" aria-describedby="notesAppBadge">
+              <img src="assets/notes-app.png" alt="Notes app icon" class="app-file-img" loading="lazy">
+              <span id="notesAppBadge" class="app-file-badge" role="status" aria-hidden="true">1</span>
+              <span class="app-file-label">Notes</span>
+            </button>
+          </div>
+        </div>
         <div class="grid gap-12 md:grid-cols-3 md:gap-10">
           <article class="skill-card text-center">
             <!-- replace src with: assets/hobby-graphic-design.png -->
@@ -110,10 +142,10 @@
           </article>
 
           <article class="skill-card text-center">
-            <!-- replace src with: assets/hobby-science-flask.png -->
-            <img src="assets/hobby-science-flask.png" alt="Science flask visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>hobby-science-flask.png</div></div>'}))">
-            <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Science</h2>
-            <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Chem pharmaceutical tech</p>
+            <!-- replace src with: assets/award.webp -->
+            <img src="assets/award.webp" alt="award visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>award.webp</div></div>'}))">
+            <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Awards</h2>
+            <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Recognition for my work and achievements</p>
           </article>
         </div>
       </section>
@@ -175,9 +207,125 @@
       </section>
 
       <footer id="contact" class="bg-white px-6 pb-6 sm:px-10 lg:px-14">
-        <div class="border-t border-black/20 pt-4 text-sm text-[#5a5a5a]">Replace the placeholder filenames in the assets folder with your real images.</div>
+        <div class="border-t border-black/20 pt-4 text-sm text-[#5a5a5a]">Hiii viviii</div>
       </footer>
     </main>
   </div>
+  <script>
+    const heroImage = document.querySelector('.hero-img.hero-bounce');
+    if (heroImage) {
+      let following = false;
+      let currentPointerId = null;
+      let targetX = 0;
+      let targetY = 0;
+      let currentX = 0;
+      let currentY = 0;
+      let rafId = null;
+
+      function animateFollow() {
+        currentX += (targetX - currentX) * 0.16;
+        currentY += (targetY - currentY) * 0.16;
+        heroImage.style.left = `${currentX}px`;
+        heroImage.style.top = `${currentY}px`;
+        if (following) {
+          rafId = requestAnimationFrame(animateFollow);
+        }
+      }
+
+      function toggleFollowing(event) {
+        event.preventDefault();
+        if (following) {
+          stopFollowing();
+          return;
+        }
+
+        following = true;
+        targetX = event.clientX;
+        targetY = event.clientY;
+        currentX = event.clientX;
+        currentY = event.clientY;
+        heroImage.classList.add('hero-following');
+        document.addEventListener('pointermove', onPointerMove);
+        animateFollow();
+      }
+
+      function onPointerMove(event) {
+        if (!following) return;
+        targetX = event.clientX;
+        targetY = event.clientY;
+      }
+
+      function stopFollowing() {
+        if (!following) return;
+        following = false;
+        heroImage.classList.remove('hero-following');
+        heroImage.style.left = '';
+        heroImage.style.top = '';
+        document.removeEventListener('pointermove', onPointerMove);
+        cancelAnimationFrame(rafId);
+      }
+
+      heroImage.addEventListener('click', toggleFollowing);
+    }
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const btn = document.getElementById('notesAppButton')
+      const badge = document.getElementById('notesAppBadge')
+      if(!btn || !badge) return
+      // Always show badge on load; hide only for the current page view when activated
+      badge.classList.remove('hidden'); badge.setAttribute('aria-hidden','false')
+
+      function markSeen(){
+        badge.classList.add('hidden')
+        badge.setAttribute('aria-hidden','true')
+      }
+
+      btn.addEventListener('click', function(e){
+        markSeen()
+        openModalFromFile('about_modal.html')
+      })
+      btn.addEventListener('keydown', function(e){
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); markSeen() }
+      })
+    })
+  </script>
+  <script>
+    // Load an external HTML fragment and show it inside a centered overlay
+    function openModalFromFile(url){
+      fetch(url).then(function(res){
+        if(!res.ok) throw new Error('Failed to load modal')
+        return res.text()
+      }).then(function(html){
+        const overlay = document.createElement('div')
+        overlay.className = 'modal-overlay'
+        overlay.innerHTML = html
+        document.body.appendChild(overlay)
+
+        function close(){
+          document.body.removeChild(overlay)
+          document.removeEventListener('keydown', onKey)
+        }
+
+        function onKey(e){
+          if(e.key === 'Escape') close()
+        }
+
+        // close when clicking outside the modal window
+        overlay.addEventListener('click', function(e){
+          if(e.target === overlay) close()
+        })
+
+        // wire any close buttons inside the modal
+        Array.from(overlay.querySelectorAll('.modal-close')).forEach(function(btn){
+          btn.addEventListener('click', function(){ close() })
+        })
+
+        document.addEventListener('keydown', onKey)
+      }).catch(function(err){
+        console.error(err)
+      })
+    }
+  </script>
 </body>
 </html>
