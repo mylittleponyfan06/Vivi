@@ -54,7 +54,7 @@
 
     /* Notification badge (overlaps the app icon like iOS) */
     .app-file{position:relative}
-    .app-file-badge{position:absolute;top:1px;right:-3px;min-width:18spx;height:18px;padding:0 6px;border-radius:9999px;background:#ef4444;color:#fff;font-weight:700;font-size:11px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(239,68,68,0.18);line-height:1;transform:translate(25%,-25%)}
+    .app-file-badge{position:absolute;top:1px;right:-3px;min-width:18spx;height:18px;padding:0 6px;border-radius:9999p;background:#ef4444;color:#fff;font-weight:700;font-size:11px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(239,68,68,0.18);line-height:1;transform:translate(25%,-25%)}
     .app-file-badge.hidden{display:none}
   </style>
 </head>
@@ -66,7 +66,7 @@
       <div class="flex h-14 items-center justify-between">
         <div class="font-logo text-[2rem] leading-none text-ink">vivi</div>
         <nav aria-label="Primary" class="hidden gap-8 text-sm text-ink sm:flex">
-          <a href="#about" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</a>
+          <a href="#onclick="openAboutModal" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</a>
           <a href="#Projects" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Hobbies</a>
           <a href="#contact" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Contact</a>
         </nav>
@@ -91,7 +91,7 @@
 
     <div class="relative z-20 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
     <div class="max-w-[34rem] pt-8 sm:pt-12">
-      <p class="mb-6 text-base font-medium text-ink">Ihsan Nabil’s</p>
+      <p class="mb-6 text-base font-medium text-ink">Vivi’s</p>
       <h1 class="font-display text-[clamp(3rem,7vw,5.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.04em] text-olive">
         Digital<br />Portfolio
       </h1>
@@ -115,16 +115,14 @@
 </section>
 
       <section id="hobbies" class="bg-white px-6 pb-8 pt-4 sm:px-10 lg:px-14">
-        <div class="mb-10 text-center text-2xl font-semibold text-black">(･ω･)つ ──────────── ⊂(･ω･)</div>
-        <div class="mt-6 flex justify-center">
-          <div class="app-file-container" aria-hidden="false">
-            <button id="notesAppButton" class="app-file" aria-label="Open Notes app" aria-describedby="notesAppBadge">
-              <img src="assets/notes-app.png" alt="Notes app icon" class="app-file-img" loading="lazy">
-              <span id="notesAppBadge" class="app-file-badge" role="status" aria-hidden="true">1</span>
-              <span class="app-file-label">Notes</span>
+        <div class="mb-5 text-center text-2xl font-semibold text-black">(･ω･)つ ──────────── ⊂(･ω･)</div>
+        <!-- <div class="mt-6 flex justify-center">
+          <div class="app-file-container" aria-hidden="false"> -->
+            <button class="winner" type="button" onclick="openAboutModal()" aria-label="Open about me popup">
+              <img src="assets/winnerwinnerchickendinner.gif" alt="Winner Winner Chicken Dinner" class="win7-ad-img" loading="lazy">
             </button>
-          </div>
-        </div>
+          <!-- </div>
+        </div> -->
         <div class="grid gap-12 md:grid-cols-3 md:gap-10">
           <article class="skill-card text-center">
             <!-- replace src with: assets/hobby-graphic-design.png -->
@@ -144,67 +142,91 @@
           <article class="skill-card text-center">
             <!-- replace src with: assets/award.webp -->
             <img src="assets/award.webp" alt="award visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>award.webp</div></div>'}))">
-            <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Awards</h2>
-            <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Recognition for my work and achievements</p>
+            <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Achievements</h2>
+            <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Academic and extracurricular accomplishments</p>
           </article>
         </div>
       </section>
 
       <section class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
         <div class="mx-auto max-w-[1280px] space-y-10">
-          <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">My latest work</h2>
+          <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">My latest work </br></br></h2>
 
-          <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-items-center">
-            <article class="relative mx-auto max-w-[19rem] space-y-4 -translate-x-5 translate-y-6">
-              <div class="tape-label tape-label--black absolute -top-3 left-4 z-10 rotate-[8deg]">New Poster Design</div>
-              <div>
-                <img src="assets/work-stuck-stem.png" alt="New Poster Design preview" class="w-full h-auto object-contain -rotate-[14deg] skew-y-[1deg] border border-black/10 bg-[#f2efe6] shadow-[0_32px_65px_-32px_rgba(0,0,0,0.38)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder work-img w-full h-auto flex items-center justify-center text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Work image</div><div>work-stuck-stem.jpg</div></div>'}))">
-              </div>
-              <div class="mt-4 space-y-3">
-                <div class="poster-note poster-note--black inline-block rounded-[2rem] border border-dashed border-black/10 bg-[#fff8e5] px-4 py-3 text-[0.92rem] leading-7 font-[cursive] italic tracking-tight shadow-[0_10px_20px_-12px_rgba(0,0,0,0.2)] rotate-[1deg]">
-                  <p><span class="font-semibold underline">Censored preview</span>, click to view full!</p>
-                </div>
-              </div>
-            </article>
+ <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-items-center">
+  <article class="poster-card poster-card--memo">
+    <div class="poster-art">
+      <img
+        src="assets/work-stuck-stem.png"
+        alt="New Poster Design preview"
+        class="poster-image"
+        loading="lazy"
+      >
 
-            <article class="relative mx-auto max-w-[22rem] space-y-4 -translate-x-10 -translate-y-8">
-              <div class="tape-label tape-label--blue absolute -top-3 right-4 z-10 -rotate-[10deg]">In The Morning</div>
-              <div>
-                <img src="assets/MUFFinthemorning.jpg" alt="In The Morning EP launch show poster" class="w-full h-auto object-contain rotate-[12deg] skew-y-[-1deg] border border-black/10 bg-[#f5f1e8] shadow-[0_32px_65px_-32px_rgba(0,0,0,0.38)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder work-img w-full h-auto flex items-center justify-center text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Work image</div><div>work-in-the-morning.jpg</div></div>'}))">
-              </div>
-              <div class="mt-4 space-y-3">
-                <div class="poster-note poster-note--blue inline-block rounded-[2rem] border border-dashed border-black/10 bg-[#fff9f1] px-4 py-3 text-[0.92rem] leading-7 font-[cursive] italic tracking-tight shadow-[0_10px_20px_-12px_rgba(0,0,0,0.2)] -rotate-[1deg]">
-                  <p>Played as Pretty Girls Cry</p>
-                </div>
-              </div>
-            </article>
+      <div class="memo-tape">
+        <img
+          src="assets/memo_tape_transparent.png"
+          alt=""
+          class="memo-tape-img"
+          aria-hidden="true"
+          loading="lazy"
+        >
+        <div class="memo-tape-text">!!New!! <br> Poster Designs</div>
+      </div>
+    </div>
 
-            <article class="relative mx-auto max-w-[21rem] space-y-4 translate-y-10 -translate-x-5">
-              <div class="tape-label tape-label--alt absolute -top-3 left-6 z-10 rotate-[6deg]">WaterWaterMelons</div>
-              <div>
-                <img src="assets/work-waterwatermelons.png" alt="WaterWaterMelons fundraiser gig poster" class="w-full h-auto object-contain rotate-[-10deg] skew-y-[0.7deg] border border-black/10 bg-[#f3ede2] shadow-[0_32px_65px_-32px_rgba(0,0,0,0.38)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder work-img w-full h-auto flex items-center justify-center text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Work image</div><div>work-waterwatermelons.jpg</div></div>'}))">
-              </div>
-              <div class="mt-4 space-y-3">
-                <div class="poster-note poster-note--alt inline-block rounded-[2rem] border border-dashed border-black/10 bg-[#fff8e7] px-4 py-3 text-[0.92rem] leading-7 font-[cursive] italic tracking-tight shadow-[0_10px_20px_-12px_rgba(0,0,0,0.2)] rotate-[2deg]">
-                  <p>Played as Pretty Girls Cry</p>
-                </div>
-              </div>
-            </article>
+    <div class="poster-note poster-note--black">
+      <p><span class="font-semibold underline">Censored preview</span>, click to view full!</p>
+    </div>
+  </article>
 
-            <article class="relative mx-auto max-w-[20rem] space-y-4 -translate-x-12 translate-y-5">
-              <div class="tape-label tape-label--red absolute -top-3 left-4 z-10 -rotate-[8deg]">Baybeats budding bands</div>
-              <div>
-                <img src="assets/work-baybeats-budding-bands.png" alt="Baybeats budding bands shortlist artwork" class="w-full h-auto object-contain rotate-[18deg] skew-y-[-1deg] border border-black/10 bg-[#f2efe4] shadow-[0_32px_65px_-32px_rgba(0,0,0,0.38)]" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder work-img w-full h-auto flex items-center justify-center text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Work image</div><div>work-baybeats-budding-bands.jpg</div></div>'}))">
-              </div>
-              <div class="mt-4 space-y-3">
-                <div class="poster-note poster-note--red inline-block rounded-[2rem] border border-dashed border-black/10 bg-[#fff9ed] px-4 py-3 text-[0.92rem] leading-7 font-[cursive] italic tracking-tight shadow-[0_10px_20px_-12px_rgba(0,0,0,0.2)] -rotate-[2deg]">
-                  <p>Singapore’s largest free alternative music festival</p>
-                </div>
-              </div>
-            </article>
-          </div>
+  <article class="poster-card poster-card--in-morning">
+    <div class="poster-art">
+      <img
+        src="assets/MUFFinthemorning.jpg"
+        alt="In The Morning EP launch show poster"
+        class="poster-image poster-image--tilt-right"
+        loading="lazy"
+      >
+    </div>
+    <div class="poster-note poster-note--blue">Played as Pretty Girls Cry</div>
+  </article>
+
+  <article class="poster-card poster-card--water">
+    <div class="poster-art">
+      <img
+        src="assets/work-waterwatermelons.png"
+        alt="WaterWaterMelons fundraiser gig poster"
+        class="poster-image poster-image--tilt-left"
+        loading="lazy"
+      >
+    </div>
+    <div class="poster-note poster-note--alt">Played as Pretty Girls Cry</div>
+  </article>
+
+  <article class="poster-card poster-card--baybeats">
+    <div class="poster-art">
+      <img
+        src="assets/work-baybeats-budding-bands.png"
+        alt="Baybeats budding bands shortlist artwork"
+        class="poster-image poster-image--tilt-strong"
+        loading="lazy"
+      >
+    </div>
+    <div class="poster-note poster-note--red">Singapore’s largest free alternative music festival</div>
+  </article>
+</div>
         </div>
       </section>
+
+      <section class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
+        <div class="mx-auto max-w-[1280px] space-y-10">
+          <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">Achievements</h2>
+
+
+
+          </div>
+      </section>
+
 
       <footer id="contact" class="bg-white px-6 pb-6 sm:px-10 lg:px-14">
         <div class="border-t border-black/20 pt-4 text-sm text-[#5a5a5a]">Hiii viviii</div>
@@ -288,10 +310,22 @@
       btn.addEventListener('keydown', function(e){
         if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); markSeen() }
       })
+
+      const aboutNavButton = document.getElementById('aboutNavButton')
+      if(aboutNavButton){
+        aboutNavButton.addEventListener('click', function(e){
+          e.preventDefault()
+          openModalFromFile('about_modal.html')
+        })
+      }
     })
   </script>
   <script>
     // Load an external HTML fragment and show it inside a centered overlay
+    function openAboutModal(){
+      openModalFromFile('about_modal.html')
+    }
+
     function openModalFromFile(url){
       fetch(url).then(function(res){
         if(!res.ok) throw new Error('Failed to load modal')

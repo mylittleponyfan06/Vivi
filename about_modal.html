@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="modal-styles.css">
 <div class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="about-modal-title">
   <div class="modal-window">
     <button class="modal-close" aria-label="Close">✕</button>
@@ -42,60 +43,76 @@
           <div class="modal-content">
             <h1 id="about-modal-title">about me</h1>
 
-            <div class="intro-grid">
-              <div class="drawing-frame">
-                <div class="drawing-placeholder">
-                  Rabbit drawing<br>placeholder
-                </div>
-              </div>
+  <div class="intro-grid">
+  <div class="intro-photo">
+    <div class="drawing-frame">
+      <div class="drawing-placeholder">
+        <img src="assets/lesbin.jpg" class="lesbin" alt="me!!" loading="lazy">
+      </div>
+    </div>
+  </div>
 
-              <div class="intro-copy">
-                <div class="meta-list">
-                  <p><span>Name:</span> Ihsan Nabil</p>
-                  <p><span>Age:</span> 22</p>
-                  <p><span>Location:</span> Singapore</p>
-                  <p><span>Occupation:</span> Chemical Pharmaceutical Tech / Music Producer</p>
-                </div>
+  <div class="intro-meta">
+    <div class="meta-list">
+      <p><span style="text-decoration: underline;">Name:</span>Vivi</p>
+      <p><span style="text-decoration: underline;">Age:</span> 22</p>
+      <p><span style="text-decoration: underline;">Location:</span> Singapore</p>
+      <p><span style="text-decoration: underline;">Occupation:</span> Chemical Pharmaceutical Tech / Music Producer</p>
+      <p><span style="text-decoration: underline;">Languages:</span> English, Malay</p>
+    </div>
+  </div>
 
-                <div class="about-paragraphs">
-                  <p>
-                    Hi! I’m Nabil, a student and builder who enjoys mixing design, code,
-                    and weird internet aesthetics into projects that feel personal and playful.
-                  </p>
-                  <p>
-                    I like experimenting with interfaces, posters, music-related visuals, and
-                    small digital tools that turn ideas into something tactile, nostalgic, or a
-                    bit unexpected.
-                  </p>
-                </div>
-              </div>
-            </div>
+  <div class="intro-copy">
+    <div class="about-paragraphs">
+      <p>
+        I am currently pursuing a diploma in Chemical & Pharmaceutical Technology under Nanyang Polytechnic - with particular interests in sustainability and water treatment technologies. I harbour an inquisitive and investigative attitude towards my work, allowing me to be committed to contribute to the best of my ability in any project.
+      </p>
+      <p>
+        I also participate in my local arts and music scene, building a broad network across industries. This has allowed me to develop my skills in communication and leadership, as well as fostering a discipline for constant self-improvement in both my soft and technical skills.
+      </p>
+    </div>
+  </div>
+</div>
 
             <div class="details-grid">
-              <div class="detail-block">
-                <h2>Skills:</h2>
-
+              <div class="detail-block skills-block">
+                <h2 style="text-decoration: underline;">Skills:</h2>
                 <div class="detail-stack">
                   <div>
-                    <p class="label">Software&gt;</p>
-                    <p class="indent">Adobe Photoshop, Illustrator, InDesign, Premiere Pro</p>
+                    <p class="label section-label">Technical-Skills&gt;</p>
+                    <div class="skill-chips">
+                      <span class="skill-chip skill-chip-strong">Microsoft Office Suite</span>
+                      <span class="skill-chip skill-chip-strong">Quality Control &amp; Assurance</span>
+                      <span class="skill-chip skill-chip-strong">UV-Vis Spectroscopy</span>
+                      <span class="skill-chip skill-chip-strong">Research &amp; Data Analysis</span>
+                      <span class="skill-chip skill-chip-strong">Graphic Design</span>
+                    </div>
                   </div>
 
                   <div>
-                    <p class="label">Coding languages&gt;</p>
-                    <p class="indent">HTML, CSS, JavaScript</p>
+                    <p class="label">Soft-Skills&gt;</p>
+                    <div class="skill-chips skill-chips-muted">
+                      <span class="skill-chip">Communication</span>
+                      <span class="skill-chip">Leadership</span>
+                      <span class="skill-chip">Critical Thinking</span>
+                      <span class="skill-chip">Problem Solving</span>
+                      <span class="skill-chip">Organisation</span>
+                    </div>
                   </div>
 
                   <div>
                     <p class="label">&lt;--Still learning--&gt;</p>
-                    <p class="indent">Blender, Tailwind CSS, UI design systems</p>
+                    <div class="skill-chips skill-chips-learning">
+                      <span class="skill-chip">Blender</span>
+                      <span class="skill-chip">Tailwind CSS</span>
+                      <span class="skill-chip">UI design systems</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div class="detail-block">
-                <h2>Education:</h2>
-
+              <div class="detail-block education-block">
+                <h2 style="text-decoration: underline;">Education:</h2>
                 <div class="detail-stack">
                   <div>
                     <p>INSTITUTE OF TECHNICAL EDUCATION – COLLEGE EAST, SINGAPORE</p>
@@ -104,9 +121,9 @@
                   </div>
 
                   <div>
-                    <p>NANYANG POLYTECHNIC, SINGAPORE </br>
-Diploma in Chemical & Pharmaceutical Technology</p>
-                    <p class="align-right">Apr 2023 -Ongoing</p>
+                    <p>NANYANG POLYTECHNIC, SINGAPORE</p>
+                    <p>Diploma in Chemical &amp; Pharmaceutical Technology</p>
+                    <p class="align-right">Apr 2023 - Ongoing</p>
                   </div>
                 </div>
               </div>
@@ -114,16 +131,15 @@ Diploma in Chemical & Pharmaceutical Technology</p>
 
             <div class="experience-block">
               <h2>Experience:</h2>
-
               <div class="experience-grid">
-                <p>FRESHENING INDUSTRIES - Intern</p>
+                <p>- Intern <br> Freshening Industries</p>
                 <p>04 April - 26 August 2022</p>
 
-                <p>Creative or school-based role</p>
-                <p>2023–2024</p>
+                <p>Head of Events/Production for Crew Studio <br> Nanyang Polytechnic</p>
+                <p>AY 2025</p>
 
-                <p>Internship / club / collaborative work</p>
-                <p>2022–2023</p>
+                <p>CCA Captain, Head-of-Welfare and Assistant Logistics for East Dynamics <br> ITE College East</p>
+                <p>AY 2022</p>
               </div>
             </div>
           </div>
@@ -136,7 +152,6 @@ Diploma in Chemical & Pharmaceutical Technology</p>
 
       <aside class="modal-sidebar-right">
         <h2>Contact Info</h2>
-
         <div class="contact-stack">
           <div>
             <p class="contact-label">Website:</p>
@@ -145,17 +160,17 @@ Diploma in Chemical & Pharmaceutical Technology</p>
 
           <div>
             <p class="contact-label">Email:</p>
-            <p>your@email.com</p>
+            <p>234568P@mymail.nyp.edu.sg</p>
           </div>
 
           <div>
             <p class="contact-label">IG:</p>
-            <p>@yourhandle</p>
+            <p>Upon request</p>
           </div>
 
           <div>
-            <p class="contact-label">Behance:</p>
-            <p>behance.net/yourname</p>
+            <p class="contact-label">Discord:</p>
+            <p>@vivi_trash</p>
           </div>
 
           <div>
