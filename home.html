@@ -1,365 +1,623 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>vivi-portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=Fontdiner+Swanky&family=Orbitron:wght@500;700&family=Permanent+Marker&family=Patrick+Hand&family=Indie+Flower&family=Shadows+Into+Light&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="modal-styles.css">
-  <style>
-    .hero-bounce:hover {
-      animation: bounce-sm 0.6s ease-in-out infinite;
-      outline: none;
-    }
+  <!DOCTYPE html>
+  <html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vivi-portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modal-styles.css">
+    <style>
+      .hero-bounce:hover {
+        animation: bounce-sm 0.6s ease-in-out infinite;
+        outline: none;
+      }
 
-    .hero-bounce {
-      outline: none;
-      transform: translateX(-1rem);
-      will-change: transform;
-      touch-action: none;
-      cursor: grab;
-    }
+      .hero-bounce {
+        outline: none;
+        transform: translateX(-1rem);
+        will-change: transform;
+        touch-action: none;
+        cursor: grab;
+      }
 
-    .hero-bounce.hero-following {
-      position: fixed;
-      z-index: 60;
-      cursor: grabbing;
-      transform: translate(-50%, -50%) scale(0.5) !important;
-      transition: transform 0.1s ease;
-    }
+      .hero-bounce.hero-following {
+        position: fixed;
+        z-index: 60;
+        cursor: grabbing;
+        transform: translate(-50%, -50%) scale(0.5) !important;
+        transition: transform 0.1s ease;
+      }
 
-    .hero-visual:hover .hero-img.no-hover-box,
-    .hero-img.no-hover-box:hover {
-      box-shadow: none !important;
-    }
+      .hero-visual:hover .hero-img.no-hover-box,
+      .hero-img.no-hover-box:hover {
+        box-shadow: none !important;
+      }
 
-    @keyframes bounce-sm {
-      0%, 100% { transform: translateX(-1rem) translateY(0); }
-      25%, 75% { transform: translateX(-2rem) translateY(-5px); }
-      50% { transform: translateX(-2rem) translateY(-8px); }
-    }
+      @keyframes bounce-sm {
+        0%, 100% { transform: translateX(-1rem) translateY(0); }
+        25%, 75% { transform: translateX(-2rem) translateY(-5px); }
+        50% { transform: translateX(-2rem) translateY(-8px); }
+      }
 
-    /* Notes app file aesthetic (iOS-like shadow/backdrop, no border) */
-    .app-file-container{display:flex;gap:1rem;padding:1rem 1.5rem;align-items:center}
-    .app-file{display:inline-flex;flex-direction:column;align-items:center;gap:0.35rem;background:transparent;border:none;cursor:pointer}
-      .app-file-img{width:64px;height:64px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,251,250,0.9));box-shadow:0 10px 30px rgba(0,0,0,0.18),0 2px 8px rgba(0,0,0,0.08);border:none}
-    .app-file-label{font-size:0.82rem;color:#262626}
-    .app-file:active .app-file-img{transform:scale(0.96)}
-    .app-file:active{outline:none}
-    .app-file:focus{outline:none}
-    .app-file:focus-visible{outline:2px solid rgba(59,130,246,0.12);outline-offset:6px;border-radius:16px}
+      /* Notes app file aesthetic (iOS-like shadow/backdrop, no border) */
+      .app-file-container{display:flex;gap:1rem;padding:1rem 1.5rem;align-items:center}
+      .app-file{display:inline-flex;flex-direction:column;align-items:center;gap:0.35rem;background:transparent;border:none;cursor:pointer}
+        .app-file-img{width:64px;height:64px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,251,250,0.9));box-shadow:0 10px 30px rgba(0,0,0,0.18),0 2px 8px rgba(0,0,0,0.08);border:none}
+      .app-file-label{font-size:0.82rem;color:#262626}
+      .app-file:active .app-file-img{transform:scale(0.96)}
+      .app-file:active{outline:none}
+      .app-file:focus{outline:none}
+      .app-file:focus-visible{outline:2px solid rgba(59,130,246,0.12);outline-offset:6px;border-radius:16px}
 
-    /* Notification badge (overlaps the app icon like iOS) */
-    .app-file{position:relative}
-    .app-file-badge{position:absolute;top:1px;right:-3px;min-width:18spx;height:18px;padding:0 6px;border-radius:9999p;background:#ef4444;color:#fff;font-weight:700;font-size:11px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(239,68,68,0.18);line-height:1;transform:translate(25%,-25%)}
-    .app-file-badge.hidden{display:none}
-  </style>
-</head>
-<body>
-  <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
+      /* Notification badge (overlaps the app icon like iOS) */
+      .app-file{position:relative}
+      .app-file-badge{position:absolute;top:1px;right:-3px;min-width:18spx;height:18px;padding:0 6px;border-radius:9999p;background:#ef4444;color:#fff;font-weight:700;font-size:11px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(239,68,68,0.18);line-height:1;transform:translate(25%,-25%)}
+      .app-file-badge.hidden{display:none}
+    </style>
+  </head>
+  <body>
+    <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
 
-  <div class="mx-auto min-h-screen max-w-[1280px] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.06)]">
-    <header class="sticky top-0 z-50 border-t-[10px] border-[#262626] bg-white/95 backdrop-blur-sm px-6 sm:px-10">
-      <div class="flex h-14 items-center justify-between">
-        <div class="font-logo text-[2rem] leading-none text-ink">vivi</div>
-        <nav aria-label="Primary" class="hidden gap-8 text-sm text-ink sm:flex">
-          <a href="#onclick="openAboutModal" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</a>
-          <a href="#Projects" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Hobbies</a>
-          <a href="#contact" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Contact</a>
-        </nav>
+    <div class="mx-auto min-h-screen max-w-[1280px] bg-white shadow-[0_0_0_1px_rgba(0,0,0,0.06)]">
+      <header class="sticky top-0 z-50 border-t-[10px] border-[#262626] bg-white/95 backdrop-blur-sm px-6 sm:px-10">
+        <div class="flex h-14 items-center justify-between">
+          <div class="font-logo text-[2rem] leading-none text-ink">vivi</div>
+          <nav aria-label="Primary" class="hidden gap-8 text-sm text-ink sm:flex">
+            <a href="#onclick="openAboutModal" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</a>
+            <a href="#Projects" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Hobbies</a>
+            <a href="#contact" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Contact</a>
+          </nav>
+        </div>
+      </header>
+
+      <main id="content">
+        <section id="about" class="relative min-h-[300px] overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:min-h-[420px] lg:px-14">
+    <img
+      src="assets/header-background.jpg"
+      alt="Digital Portfolio header background"
+      class="absolute inset-0 h-full w-full object-cover object-top"
+      loading="eager"
+      onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'music-paper absolute inset-0'}))"
+    >
+
+    <div class="absolute inset-0 bg-white/10"></div>
+
+    <!-- <div class="pointer-events-none absolute left-0 right-0 top-4 z-10 opacity-80">
+      <div class="staff-notes -translate-x-6">𝄞 ♪ ♫ ♩ ♬ ♪ ♫ ♩ ♪ ♫</div>
+    </div> -->
+
+      <div class="relative z-20 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <div class="max-w-[34rem] pt-8 sm:pt-12">
+        <p class="mb-6 text-base font-medium text-ink">Vivi’s</p>
+        <h1 class="font-display text-[clamp(3rem,7vw,5.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.04em] text-olive">
+          Digital<br />Portfolio
+        </h1>
+        <div class="mt-10 max-w-md text-[15px] leading-7 text-ink">
+          <p><span class="font-semibold">Currently Pursuing</span>:</p>
+          <p>Nanyang Polytechnic, Singapore</p>
+          <p>Diploma in Chemical &amp; Pharmaceutical Technology</p>
+        </div>
       </div>
-    </header>
 
-    <main id="content">
-      <section id="about" class="relative min-h-[300px] overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:min-h-[420px] lg:px-14">
-  <img
-    src="assets/header-background.jpg"
-    alt="Digital Portfolio header background"
-    class="absolute inset-0 h-full w-full object-cover object-top"
-    loading="eager"
-    onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'music-paper absolute inset-0'}))"
-  >
-
-  <div class="absolute inset-0 bg-white/10"></div>
-
-  <!-- <div class="pointer-events-none absolute left-0 right-0 top-4 z-10 opacity-80">
-    <div class="staff-notes -translate-x-6">𝄞 ♪ ♫ ♩ ♬ ♪ ♫ ♩ ♪ ♫</div>
-  </div> -->
-
-    <div class="relative z-20 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-    <div class="max-w-[34rem] pt-8 sm:pt-12">
-      <p class="mb-6 text-base font-medium text-ink">Vivi’s</p>
-      <h1 class="font-display text-[clamp(3rem,7vw,5.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.04em] text-olive">
-        Digital<br />Portfolio
-      </h1>
-      <div class="mt-10 max-w-md text-[15px] leading-7 text-ink">
-        <p><span class="font-semibold">Currently Pursuing</span>:</p>
-        <p>Nanyang Polytechnic, Singapore</p>
-        <p>Diploma in Chemical &amp; Pharmaceutical Technology</p>
+      <div class="hero-visual flex items-center justify-center lg:justify-end">
+        <img
+          src="assets/anomoclaris.gif"
+          alt="anomoclaris hero visual"
+          class="hero-img hero-bounce no-hover-box h-auto w-[min(30vw,280px)] -translate-x-4 transform object-contain focus:outline-none"
+          loading="lazy"
+          onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder hero-img flex h-[220px] w-[220px] items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hero image</div><div>anomoclaris.gif</div></div>'}))"
+        >
       </div>
     </div>
+  </section>
 
-    <div class="hero-visual flex items-center justify-center lg:justify-end">
-      <img
-        src="assets/anomoclaris.gif"
-        alt="anomoclaris hero visual"
-        class="hero-img hero-bounce no-hover-box h-auto w-[min(30vw,280px)] -translate-x-4 transform object-contain focus:outline-none"
-        loading="lazy"
-        onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder hero-img flex h-[220px] w-[220px] items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hero image</div><div>anomoclaris.gif</div></div>'}))"
-      >
+        <section id="hobbies" class="bg-white px-6 pb-8 pt-4 sm:px-10 lg:px-14">
+          <div class="mb-5 text-center text-2xl font-semibold text-black">(･ω･)つ ──────────── ⊂(･ω･)</div>
+          <!-- <div class="mt-6 flex justify-center">
+            <div class="app-file-container" aria-hidden="false"> -->
+              <button class="winner" type="button" onclick="openAboutModal()" aria-label="Open about me popup">
+                <img src="assets/winnerwinnerchickendinner.gif" alt="Winner Winner Chicken Dinner" class="win7-ad-img" loading="lazy">
+              </button>
+            <!-- </div>
+          </div> -->
+          <div class="grid gap-12 md:grid-cols-3 md:gap-10">
+            <article class="skill-card text-center">
+              <!-- replace src with: assets/hobby-graphic-design.png -->
+              <img src="assets/hobby-graphic-design.png" alt="Graphic design visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>hobby-graphic-design.png</div></div>'}))">
+              <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Graphic Design</h2>
+              <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Current niche for poster &amp; card designing!</p>
+            </article>
+
+            <article class="skill-card text-center">
+              <!-- replace src with: assets/hobby-music-amp.png -->
+              <img src="assets/hobby-music-amp.png
+              " alt="Music amplifier visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>hobby-music-amp.png</div></div>'}))">
+              <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Music</h2>
+              <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Producer &amp; Live Performer</p>
+            </article>
+
+            <article class="skill-card text-center">
+              <!-- replace src with: assets/award.webp -->
+              <img src="assets/award.webp" alt="award visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>award.webp</div></div>'}))">
+              <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Achievements</h2>
+              <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Academic and extracurricular accomplishments</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
+          <div class="mx-auto max-w-[1280px] space-y-10">
+            <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">My latest work </br></br></h2>
+
+  <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-items-center">
+    <article class="poster-card poster-card--memo">
+      <div class="poster-art">
+        <img
+          src="assets/work-stuck-stem.png"
+          alt="New Poster Design preview"
+          class="poster-image"
+          loading="lazy"
+        >
+
+        <div class="memo-tape">
+          <img
+            src="assets/memo_tape_transparent.png"
+            alt=""
+            class="memo-tape-img"
+            aria-hidden="true"
+            loading="lazy"
+          >
+          <div class="memo-tape-text">!!New!! <br> Poster Designs</div>
+        </div>
+      </div>
+
+      <div class="poster-note poster-note--black">
+        <p><span class="font-semibold underline">Censored preview</span>, click to view full!</p>
+      </div>
+    </article>
+
+    <article class="poster-card poster-card--in-morning">
+      <div class="poster-art">
+        <img
+          src="assets/MUFFinthemorning.jpg"
+          alt="In The Morning EP launch show poster"
+          class="poster-image poster-image--tilt-right"
+          loading="lazy"
+        >
+      </div>
+      <div class="poster-note poster-note--blue">Played as Pretty Girls Cry</div>
+    </article>
+
+    <article class="poster-card poster-card--water">
+      <div class="poster-art">
+        <img
+          src="assets/work-waterwatermelons.png"
+          alt="WaterWaterMelons fundraiser gig poster"
+          class="poster-image poster-image--tilt-left"
+          loading="lazy"
+        >
+      </div>
+      <div class="poster-note poster-note--alt">Played as Pretty Girls Cry</div>
+    </article>
+
+    <article class="poster-card poster-card--baybeats">
+      <div class="poster-art">
+        <img
+          src="assets/work-baybeats-budding-bands.png"
+          alt="Baybeats budding bands shortlist artwork"
+          class="poster-image poster-image--tilt-strong"
+          loading="lazy"
+        >
+      </div>
+      <div class="poster-note poster-note--red">Singapore’s largest free alternative music festival</div>
+    </article>
+  </div>
+          </div>
+        </section>
+
+       <section class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
+  <div class="mx-auto max-w-[1280px] space-y-10">
+    <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">
+      Achievements
+    </h2>
+
+    <div class="dossier-scene" id="dossierScene">
+      <div class="dossier-left">
+        <div class="folder-stack" id="folderStack" aria-label="Achievement categories">
+          <img
+            src="assets/folder.png"
+            alt="Confidential file folder"
+            class="folder-art"
+            loading="lazy"
+          >
+
+          <div class="folder-tabs">
+            <button class="folder-tab tab-cca is-active" type="button" data-panel="cca">
+              CCA
+            </button>
+
+            <button class="folder-tab tab-volunteer" type="button" data-panel="volunteer">
+              Volunteer work
+            </button>
+
+            <button class="folder-tab tab-achievements" type="button" data-panel="achievements">
+              Achievements
+            </button>
+
+            <button class="folder-tab tab-school" type="button" data-panel="school">
+              School
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dossier-pullout" aria-live="polite">
+        <div class="paper-shell">
+          <img
+            src="assets/paper.jpg"
+            alt=""
+            class="paper-art"
+            loading="lazy"
+          >
+
+          <img
+            src="assets/hand.png"
+            alt=""
+            class="hand-art"
+            loading="lazy"
+          >
+
+          <div class="paper-content">
+            <article class="paper-panel is-active" data-panel="cca">
+              <p class="paper-kicker">CCA file</p>
+              <h3>CCA</h3>
+              <div class="paper-list">
+                <section class="paper-entry">
+                  <h4>Robotics Team</h4>
+                  <p class="paper-meta">Primary &amp; Secondary School · 2013 - 2020</p>
+                  <ul>
+                    <li>Won 1st Place, Secondary Category, Best Drone Performance at the 12th National Robotics Programming Competition in 2018.</li>
+                    <li>Participated in multiple competitions, focusing on research and presentation.</li>
+                    <li>Developed early critical thinking, problem solving, and IT skills.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-entry">
+                  <h4>Student Ambassador</h4>
+                  <p class="paper-meta">Edgefield Secondary School · 2019 - 2020</p>
+                  <ul>
+                    <li>Initiated and led a student-run campaign on sustainability.</li>
+                    <li>Ran a campaign on mental health awareness.</li>
+                    <li>Raised awareness on the stigma and mistreatment surrounding migrant workers.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-entry">
+                  <h4>ITE Jazz Orchestra</h4>
+                  <p class="paper-meta">Member · 2021 - 2022</p>
+                  <ul>
+                    <li>Played in a jazz band, developing communication, coordination, and teamwork skills.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-entry">
+                  <h4>East Dynamics</h4>
+                  <p class="paper-meta">CCA Captain, Head-of-Welfare &amp; Assistant Logistics · ITE College East · 2022</p>
+                  <ul>
+                    <li>Assisted in social media marketing.</li>
+                    <li>Coached and guided members, fostering an environment of constant self-improvement.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-entry">
+                  <h4>Crew Studio</h4>
+                  <p class="paper-meta">Head of Events/Production · Nanyang Polytechnic · 2025</p>
+                  <ul>
+                    <li>Handled event logistics, strengthening problem solving, critical thinking, and teamwork skills.</li>
+                    <li>Planned and organised events with other CCAs and organisations.</li>
+                    <li>Coordinated members to keep event flow steady.</li>
+                    <li>Assisted in social media marketing, inventory checks, and asset procurement.</li>
+                  </ul>
+                </section>
+              </div>
+            </article>
+
+            <article class="paper-panel" data-panel="volunteer">
+              <p class="paper-kicker">Community file</p>
+              <h3>Volunteer work</h3>
+              <div class="paper-list">
+                <section class="paper-entry paper-entry--pinned">
+                  <h4>TOUCH Home Care</h4>
+                  <p class="paper-meta">Meals-on-Wheels Meal Runner · 2021 &amp; 2024</p>
+                  <ul>
+                    <li>Assisted with meal service and wellness checks for the elderly.</li>
+                    <li>Built empathy, communication, and confidence through direct community care.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-entry paper-entry--pinned">
+                  <h4>Muscular Dystrophy Association Singapore</h4>
+                  <p class="paper-meta">Charity Concert Performer</p>
+                  <ul>
+                    <li>Performed for the "One Voice, A Million Dreams" charity concert.</li>
+                  </ul>
+                </section>
+              </div>
+            </article>
+
+            <article class="paper-panel" data-panel="achievements">
+              <p class="paper-kicker">Achievement file</p>
+              <h3>Accomplishments</h3>
+              <div class="paper-timeline">
+                <section class="paper-year">
+                  <h4>2018</h4>
+                  <ul>
+                    <li>1st Place, Secondary Category, Best Drone Performance at the 12th National Robotics Programming Competition.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-year">
+                  <h4>2019</h4>
+                  <ul>
+                    <li>1st Dan Black Belt in Taekwondo with Singapore Taekwondo Federation.</li>
+                    <li>School planning committee for ARTas Fest.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-year">
+                  <h4>2022</h4>
+                  <ul>
+                    <li>ITE Vocal Xchange 2023 Performer.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-year">
+                  <h4>2023</h4>
+                  <ul>
+                    <li>ITE Singer-Songwriter Showcase 2023 Performer.</li>
+                    <li>ITE Vocal Xchange 2023 Performer.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-year">
+                  <h4>2024</h4>
+                  <ul>
+                    <li>Crew Studio "Through the Ages" Concert Stage Manager and Performer.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-year">
+                  <h4>2025</h4>
+                  <ul>
+                    <li>Crew Studio representative for NYP Annual Arts Festival, Spectrum.</li>
+                  </ul>
+                </section>
+
+                <section class="paper-year">
+                  <h4>2026</h4>
+                  <ul>
+                    <li>Crew Studio "Through the Ages" Concert Organiser, Stage Manager, and Performer.</li>
+                  </ul>
+                </section>
+              </div>
+            </article>
+
+            <article class="paper-panel" data-panel="school">
+              <p class="paper-kicker">Academic file</p>
+              <h3>School</h3>
+              <p>Placeholder text for your academic highlights.</p>
+            </article>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-      <section id="hobbies" class="bg-white px-6 pb-8 pt-4 sm:px-10 lg:px-14">
-        <div class="mb-5 text-center text-2xl font-semibold text-black">(･ω･)つ ──────────── ⊂(･ω･)</div>
-        <!-- <div class="mt-6 flex justify-center">
-          <div class="app-file-container" aria-hidden="false"> -->
-            <button class="winner" type="button" onclick="openAboutModal()" aria-label="Open about me popup">
-              <img src="assets/winnerwinnerchickendinner.gif" alt="Winner Winner Chicken Dinner" class="win7-ad-img" loading="lazy">
-            </button>
-          <!-- </div>
-        </div> -->
-        <div class="grid gap-12 md:grid-cols-3 md:gap-10">
-          <article class="skill-card text-center">
-            <!-- replace src with: assets/hobby-graphic-design.png -->
-            <img src="assets/hobby-graphic-design.png" alt="Graphic design visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>hobby-graphic-design.png</div></div>'}))">
-            <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Graphic Design</h2>
-            <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Current niche for poster &amp; card designing!</p>
-          </article>
 
-          <article class="skill-card text-center">
-            <!-- replace src with: assets/hobby-music-amp.png -->
-            <img src="assets/hobby-music-amp.png
-            " alt="Music amplifier visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>hobby-music-amp.png</div></div>'}))">
-            <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Music</h2>
-            <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Producer &amp; Live Performer</p>
-          </article>
-
-          <article class="skill-card text-center">
-            <!-- replace src with: assets/award.webp -->
-            <img src="assets/award.webp" alt="award visual" class="skill-img mx-auto mb-8 h-52 w-52 object-contain" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder skill-img mx-auto mb-8 flex h-52 w-52 items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hobby image</div><div>award.webp</div></div>'}))">
-            <h2 class="text-[2rem] font-semibold leading-tight text-[#2d2d2d]">Achievements</h2>
-            <p class="mx-auto mt-4 max-w-[18rem] text-[15px] leading-7 text-[#4f4f4f]">Academic and extracurricular accomplishments</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
-        <div class="mx-auto max-w-[1280px] space-y-10">
-          <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">My latest work </br></br></h2>
-
- <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-items-center">
-  <article class="poster-card poster-card--memo">
-    <div class="poster-art">
-      <img
-        src="assets/work-stuck-stem.png"
-        alt="New Poster Design preview"
-        class="poster-image"
-        loading="lazy"
-      >
-
-      <div class="memo-tape">
-        <img
-          src="assets/memo_tape_transparent.png"
-          alt=""
-          class="memo-tape-img"
-          aria-hidden="true"
-          loading="lazy"
-        >
-        <div class="memo-tape-text">!!New!! <br> Poster Designs</div>
-      </div>
+        <footer id="contact" class="bg-white px-6 pb-6 sm:px-10 lg:px-14">
+          <div class="border-t border-black/20 pt-4 text-sm text-[#5a5a5a]">Hiii viviii</div>
+        </footer>
+      </main>
     </div>
+    <script>
+      const heroImage = document.querySelector('.hero-img.hero-bounce');
+      if (heroImage) {
+        let following = false;
+        let currentPointerId = null;
+        let targetX = 0;
+        let targetY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        let rafId = null;
 
-    <div class="poster-note poster-note--black">
-      <p><span class="font-semibold underline">Censored preview</span>, click to view full!</p>
-    </div>
-  </article>
-
-  <article class="poster-card poster-card--in-morning">
-    <div class="poster-art">
-      <img
-        src="assets/MUFFinthemorning.jpg"
-        alt="In The Morning EP launch show poster"
-        class="poster-image poster-image--tilt-right"
-        loading="lazy"
-      >
-    </div>
-    <div class="poster-note poster-note--blue">Played as Pretty Girls Cry</div>
-  </article>
-
-  <article class="poster-card poster-card--water">
-    <div class="poster-art">
-      <img
-        src="assets/work-waterwatermelons.png"
-        alt="WaterWaterMelons fundraiser gig poster"
-        class="poster-image poster-image--tilt-left"
-        loading="lazy"
-      >
-    </div>
-    <div class="poster-note poster-note--alt">Played as Pretty Girls Cry</div>
-  </article>
-
-  <article class="poster-card poster-card--baybeats">
-    <div class="poster-art">
-      <img
-        src="assets/work-baybeats-budding-bands.png"
-        alt="Baybeats budding bands shortlist artwork"
-        class="poster-image poster-image--tilt-strong"
-        loading="lazy"
-      >
-    </div>
-    <div class="poster-note poster-note--red">Singapore’s largest free alternative music festival</div>
-  </article>
-</div>
-        </div>
-      </section>
-
-      <section class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
-        <div class="mx-auto max-w-[1280px] space-y-10">
-          <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">Achievements</h2>
-
-
-
-          </div>
-      </section>
-
-
-      <footer id="contact" class="bg-white px-6 pb-6 sm:px-10 lg:px-14">
-        <div class="border-t border-black/20 pt-4 text-sm text-[#5a5a5a]">Hiii viviii</div>
-      </footer>
-    </main>
-  </div>
-  <script>
-    const heroImage = document.querySelector('.hero-img.hero-bounce');
-    if (heroImage) {
-      let following = false;
-      let currentPointerId = null;
-      let targetX = 0;
-      let targetY = 0;
-      let currentX = 0;
-      let currentY = 0;
-      let rafId = null;
-
-      function animateFollow() {
-        currentX += (targetX - currentX) * 0.16;
-        currentY += (targetY - currentY) * 0.16;
-        heroImage.style.left = `${currentX}px`;
-        heroImage.style.top = `${currentY}px`;
-        if (following) {
-          rafId = requestAnimationFrame(animateFollow);
-        }
-      }
-
-      function toggleFollowing(event) {
-        event.preventDefault();
-        if (following) {
-          stopFollowing();
-          return;
+        function animateFollow() {
+          currentX += (targetX - currentX) * 0.16;
+          currentY += (targetY - currentY) * 0.16;
+          heroImage.style.left = `${currentX}px`;
+          heroImage.style.top = `${currentY}px`;
+          if (following) {
+            rafId = requestAnimationFrame(animateFollow);
+          }
         }
 
-        following = true;
-        targetX = event.clientX;
-        targetY = event.clientY;
-        currentX = event.clientX;
-        currentY = event.clientY;
-        heroImage.classList.add('hero-following');
-        document.addEventListener('pointermove', onPointerMove);
-        animateFollow();
+        function toggleFollowing(event) {
+          event.preventDefault();
+          if (following) {
+            stopFollowing();
+            return;
+          }
+
+          following = true;
+          targetX = event.clientX;
+          targetY = event.clientY;
+          currentX = event.clientX;
+          currentY = event.clientY;
+          heroImage.classList.add('hero-following');
+          document.addEventListener('pointermove', onPointerMove);
+          animateFollow();
+        }
+
+        function onPointerMove(event) {
+          if (!following) return;
+          targetX = event.clientX;
+          targetY = event.clientY;
+        }
+
+        function stopFollowing() {
+          if (!following) return;
+          following = false;
+          heroImage.classList.remove('hero-following');
+          heroImage.style.left = '';
+          heroImage.style.top = '';
+          document.removeEventListener('pointermove', onPointerMove);
+          cancelAnimationFrame(rafId);
+        }
+
+        heroImage.addEventListener('click', toggleFollowing);
       }
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+        const btn = document.getElementById('notesAppButton')
+        const badge = document.getElementById('notesAppBadge')
+        if(!btn || !badge) return
+        // Always show badge on load; hide only for the current page view when activated
+        badge.classList.remove('hidden'); badge.setAttribute('aria-hidden','false')
 
-      function onPointerMove(event) {
-        if (!following) return;
-        targetX = event.clientX;
-        targetY = event.clientY;
-      }
+        function markSeen(){
+          badge.classList.add('hidden')
+          badge.setAttribute('aria-hidden','true')
+        }
 
-      function stopFollowing() {
-        if (!following) return;
-        following = false;
-        heroImage.classList.remove('hero-following');
-        heroImage.style.left = '';
-        heroImage.style.top = '';
-        document.removeEventListener('pointermove', onPointerMove);
-        cancelAnimationFrame(rafId);
-      }
-
-      heroImage.addEventListener('click', toggleFollowing);
-    }
-  </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function(){
-      const btn = document.getElementById('notesAppButton')
-      const badge = document.getElementById('notesAppBadge')
-      if(!btn || !badge) return
-      // Always show badge on load; hide only for the current page view when activated
-      badge.classList.remove('hidden'); badge.setAttribute('aria-hidden','false')
-
-      function markSeen(){
-        badge.classList.add('hidden')
-        badge.setAttribute('aria-hidden','true')
-      }
-
-      btn.addEventListener('click', function(e){
-        markSeen()
-        openModalFromFile('about_modal.html')
-      })
-      btn.addEventListener('keydown', function(e){
-        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); markSeen() }
-      })
-
-      const aboutNavButton = document.getElementById('aboutNavButton')
-      if(aboutNavButton){
-        aboutNavButton.addEventListener('click', function(e){
-          e.preventDefault()
+        btn.addEventListener('click', function(e){
+          markSeen()
           openModalFromFile('about_modal.html')
         })
-      }
-    })
-  </script>
-  <script>
-    // Load an external HTML fragment and show it inside a centered overlay
-    function openAboutModal(){
-      openModalFromFile('about_modal.html')
-    }
-
-    function openModalFromFile(url){
-      fetch(url).then(function(res){
-        if(!res.ok) throw new Error('Failed to load modal')
-        return res.text()
-      }).then(function(html){
-        const overlay = document.createElement('div')
-        overlay.className = 'modal-overlay'
-        overlay.innerHTML = html
-        document.body.appendChild(overlay)
-
-        function close(){
-          document.body.removeChild(overlay)
-          document.removeEventListener('keydown', onKey)
-        }
-
-        function onKey(e){
-          if(e.key === 'Escape') close()
-        }
-
-        // close when clicking outside the modal window
-        overlay.addEventListener('click', function(e){
-          if(e.target === overlay) close()
+        btn.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); markSeen() }
         })
 
-        // wire any close buttons inside the modal
-        Array.from(overlay.querySelectorAll('.modal-close')).forEach(function(btn){
-          btn.addEventListener('click', function(){ close() })
-        })
-
-        document.addEventListener('keydown', onKey)
-      }).catch(function(err){
-        console.error(err)
+        const aboutNavButton = document.getElementById('aboutNavButton')
+        if(aboutNavButton){
+          aboutNavButton.addEventListener('click', function(e){
+            e.preventDefault()
+            openModalFromFile('about_modal.html')
+          })
+        }
       })
+    </script>
+    <script>
+      // Load an external HTML fragment and show it inside a centered overlay
+      function openAboutModal(){
+        openModalFromFile('about_modal.html')
+      }
+
+      function openModalFromFile(url){
+        fetch(url).then(function(res){
+          if(!res.ok) throw new Error('Failed to load modal')
+          return res.text()
+        }).then(function(html){
+          const overlay = document.createElement('div')
+          overlay.className = 'modal-overlay'
+          overlay.innerHTML = html
+          document.body.appendChild(overlay)
+
+          function close(){
+            document.body.removeChild(overlay)
+            document.removeEventListener('keydown', onKey)
+          }
+
+          function onKey(e){
+            if(e.key === 'Escape') close()
+          }
+
+          // close when clicking outside the modal window
+          overlay.addEventListener('click', function(e){
+            if(e.target === overlay) close()
+          })
+
+          // wire any close buttons inside the modal
+          Array.from(overlay.querySelectorAll('.modal-close')).forEach(function(btn){
+            btn.addEventListener('click', function(){ close() })
+          })
+
+          document.addEventListener('keydown', onKey)
+        }).catch(function(err){
+          console.error(err)
+        })
+      }
+    </script>
+
+        <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const scene = document.getElementById('dossierScene');
+    const folder = document.getElementById('folderStack');
+    if (!scene || !folder) return;
+
+    const tabs = Array.from(scene.querySelectorAll('.folder-tab'));
+    const panels = Array.from(scene.querySelectorAll('.paper-panel'));
+    let pullTimer = null;
+    let activePanel = 'cca';
+
+    function showPanel(name) {
+      activePanel = name;
+
+      tabs.forEach(tab => {
+        tab.classList.toggle('is-active', tab.dataset.panel === name);
+      });
+
+      panels.forEach(panel => {
+        panel.classList.toggle('is-active', panel.dataset.panel === name);
+      });
     }
-  </script>
-</body>
+
+    function activatePanel(name) {
+      window.clearTimeout(pullTimer);
+
+      if (scene.classList.contains('is-open') && activePanel === name) {
+        scene.classList.remove('is-open');
+        return;
+      }
+
+      scene.classList.remove('is-open');
+
+      pullTimer = window.setTimeout(function () {
+        showPanel(name);
+        scene.classList.add('is-open');
+      }, 260);
+    }
+
+    folder.addEventListener('mouseenter', function () {
+      scene.classList.add('is-hovering');
+    });
+
+    folder.addEventListener('mouseleave', function () {
+      scene.classList.remove('is-hovering');
+    });
+
+    tabs.forEach(tab => {
+      tab.addEventListener('mouseenter', function () {
+        scene.classList.add('is-hovering');
+      });
+
+      tab.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        activatePanel(tab.dataset.panel);
+      });
+
+      tab.addEventListener('focus', function () {
+        scene.classList.add('is-hovering');
+        activatePanel(tab.dataset.panel);
+      });
+    });
+
+    showPanel('cca');
+  });
+</script>
+  </body>
 </html>
