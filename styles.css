@@ -1105,6 +1105,19 @@ body {
   transform: rotate(18deg) translateX(0.35rem) translateY(-0.85rem) skewY(-1deg);
 }
 
+.baybeats-mspaint {
+  display: block;
+  width: min(150%, 18rem);
+  height: auto;
+  margin: 1.10rem auto 0;
+  border: 0;
+  box-shadow: none;
+  filter: none;
+  transform: none;
+  transition: none;
+  animation: none;
+}
+
 .poster-card:hover .poster-image {
   box-shadow: 0 36px 72px -30px rgba(0, 0, 0, .44);
 }
@@ -1129,9 +1142,9 @@ body {
   position: absolute;
   left: 11%;
   right: 10%;
-  top: 42%;
+  top: 43%;
   font-family: "East Side Motel", "Permanent Marker", "Patrick Hand", cursive;
-  font-size: clamp(0.2rem, 1vw, 0.70rem);
+  font-size: clamp(0.72rem, 3.2vw, 0.92rem);
   font-weight: 700;
   line-height: 0.9;
   text-align: center;
@@ -1236,6 +1249,11 @@ body {
 
   .memo-tape-text {
     font-size: clamp(.9rem, 1.35vw, 1.15rem);
+  }
+
+  .poster-tag span {
+    top: 41%;
+    font-size: clamp(0.68rem, 1.22vw, 0.75rem);
   }
 
   .poster-tag--muff {
@@ -1607,9 +1625,9 @@ body {
   background: #ee9db2;
 }
 
-.tab-achievements {
+.tab-accomplishments {
   top: 49%;
-  transform: translateX(-38%) rotate(-3deg);
+  transform: translateX(-30%) rotate(-3deg);
   background: #91c7df;
 }
 
@@ -1633,10 +1651,10 @@ body {
   transform: translateX(16%) rotate(5deg);
 }
 
-.dossier-left:hover .tab-achievements,
-.dossier-scene.is-hovering .tab-achievements,
-.dossier-scene.is-open .tab-achievements,
-.folder-tab.is-active.tab-achievements {
+.dossier-left:hover .tab-accomplishments,
+.dossier-scene.is-hovering .tab-accomplishments,
+.dossier-scene.is-open .tab-accomplishments,
+.folder-tab.is-active.tab-accomplishments {
   transform: translateX(10%) rotate(-3deg);
 }
 
@@ -1679,12 +1697,12 @@ body {
   transform: translateX(65%) rotate(5deg);
 }
 
-.dossier-left:hover .tab-achievements:hover,
-.dossier-left:hover .tab-achievements:focus-visible,
-.dossier-scene.is-hovering .tab-achievements:hover,
-.dossier-scene.is-hovering .tab-achievements:focus-visible,
-.dossier-scene.is-open .tab-achievements:hover,
-.dossier-scene.is-open .tab-achievements:focus-visible {
+.dossier-left:hover .tab-accomplishments:hover,
+.dossier-left:hover .tab-accomplishments:focus-visible,
+.dossier-scene.is-hovering .tab-accomplishments:hover,
+.dossier-scene.is-hovering .tab-accomplishments:focus-visible,
+.dossier-scene.is-open .tab-accomplishments:hover,
+.dossier-scene.is-open .tab-accomplishments:focus-visible {
   transform: translateX(60%) rotate(-3deg);
 }
 
@@ -1705,7 +1723,7 @@ body {
   --tab-rotate: 5deg;
 }
 
-.tab-achievements {
+.tab-accomplishments {
   --tab-rotate: -3deg;
 }
 
@@ -1786,6 +1804,7 @@ body {
   max-width: 36rem;
   max-height: none;
   overflow: auto;
+  container-type: inline-size;
   padding: 0 0.45rem 0.75rem 0;
   animation: paperFade 220ms ease both;
   scrollbar-width: thin;
@@ -1834,6 +1853,11 @@ body {
   font-size: clamp(2rem, 3.2vw, 3.15rem);
   line-height: 0.95;
   color: #1e1e1e;
+  overflow-wrap: anywhere;
+}
+
+.paper-panel--achievements h3 {
+  font-size: clamp(1.7rem, 7.2cqw, 2.55rem);
 }
 
 .paper-panel p {
@@ -2016,12 +2040,12 @@ body {
     transform: translateX(30%) rotate(5deg);
   }
 
-  .dossier-left:hover .tab-achievements:hover,
-  .dossier-left:hover .tab-achievements:focus-visible,
-  .dossier-scene.is-hovering .tab-achievements:hover,
-  .dossier-scene.is-hovering .tab-achievements:focus-visible,
-  .dossier-scene.is-open .tab-achievements:hover,
-  .dossier-scene.is-open .tab-achievements:focus-visible {
+  .dossier-left:hover .tab-accomplishments:hover,
+  .dossier-left:hover .tab-accomplishments:focus-visible,
+  .dossier-scene.is-hovering .tab-accomplishments:hover,
+  .dossier-scene.is-hovering .tab-accomplishments:focus-visible,
+  .dossier-scene.is-open .tab-accomplishments:hover,
+  .dossier-scene.is-open .tab-accomplishments:focus-visible {
     transform: translateX(30%) rotate(-3deg);
   }
 
@@ -2067,6 +2091,248 @@ body {
     top: -11%;
     left: -7%;
     width: 56.2%;
+  }
+}
+
+.contact-bar {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1rem, 4vw, 3.5rem);
+  border-top: 2px solid #202020;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 4px),
+    linear-gradient(135deg, #191919 0%, #343025 48%, #111 100%);
+  color: #efe7c6;
+}
+
+.contact-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(239, 231, 198, 0.16), transparent 26%),
+    radial-gradient(circle at 82% 70%, rgba(155, 188, 140, 0.14), transparent 30%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.contact-bar__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.44fr) minmax(24rem, 1fr);
+  gap: clamp(0.85rem, 2.2vw, 1.75rem);
+  align-items: start;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.contact-bar__eyebrow {
+  margin: 0 0 0.2rem;
+  font-family: "Courier New", monospace !important;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: #9bbc8c;
+}
+
+.contact-bar__header {
+  display: grid;
+  align-content: start;
+}
+
+.contact-bar h2 {
+  margin: 0;
+  font-family: "Courier New", monospace !important;
+  font-size: clamp(1.35rem, 3vw, 2.6rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: #f5edcf;
+  text-shadow: 2px 2px 0 #000, -1px 0 0 rgba(155, 188, 140, 0.72);
+}
+
+.contact-bar__gif {
+  display: block;
+  width: min(120%, 18rem);
+  height: auto;
+  margin-top: 0.9rem;
+  image-rendering: auto;
+  filter: grayscale(1) sepia(0.28) contrast(1.18) brightness(0.9);
+  mix-blend-mode: screen;
+  opacity: 0.82;
+}
+
+.contact-crt {
+  position: relative;
+  --crt-frame-width: 85%;
+  --crt-form-left: 22.2%;
+  --crt-form-right: 23%;
+  --crt-form-top: 17%;
+  --crt-form-bottom: 18%;
+  width: min(100%, 45rem);
+  aspect-ratio: 1577 / 1095;
+  margin-left: auto;
+  isolation: isolate;
+}
+
+.contact-crt__frame {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: var(--crt-frame-width);
+  height: 100%;
+  object-fit: contain;
+  left: auto;
+  right: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.35));
+}
+
+.contact-form {
+  position: absolute;
+  left: var(--crt-form-left);
+  right: var(--crt-form-right);
+  top: var(--crt-form-top);
+  bottom: var(--crt-form-bottom);
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.62rem;
+  align-items: end;
+  align-content: center;
+  max-width: none;
+  margin-left: 0;
+  padding: 0.25rem;
+  background:
+    repeating-linear-gradient(0deg, rgba(155, 188, 140, 0.06) 0 1px, transparent 1px 4px),
+    rgba(8, 13, 9, 0.54);
+  border-radius: 2px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.contact-form__message {
+  grid-column: 1 / -1;
+}
+
+.contact-form span {
+  font-family: "Courier New", monospace !important;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(239, 231, 198, 0.78);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid rgba(239, 231, 198, 0.5);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.42);
+  color: #f8f1d7;
+  padding: 0.55rem 0.65rem;
+  font-family: "Courier New", monospace !important;
+  font-size: 0.86rem;
+  line-height: 1.15;
+  box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.38);
+}
+
+.contact-form textarea {
+  min-height: clamp(3.3rem, 7vw, 5rem);
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid #9bbc8c;
+  outline-offset: 2px;
+}
+
+.contact-form button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.55rem;
+  border: 1px solid #efe7c6;
+  background: #efe7c6;
+  color: #111;
+  padding: 0.55rem 0.8rem;
+  font-family: "Courier New", monospace !important;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 #000;
+  cursor: pointer;
+  justify-self: end;
+  min-width: 9.5rem;
+}
+
+.contact-form button:hover {
+  background: #9bbc8c;
+  color: #0d0d0d;
+}
+
+@media (max-width: 1080px) {
+  .contact-bar__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-crt {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-crt {
+    width: min(116vw, 31rem);
+    aspect-ratio: auto;
+    min-height: clamp(24.5rem, 102vw, 30.5rem);
+    margin-left: clamp(-2.7rem, -6.5vw, -1rem);
+  }
+
+  .contact-crt__frame {
+    width: var(--crt-frame-width);
+    left: auto;
+    right: 0;
+  }
+
+  .contact-form {
+    left: var(--crt-form-left);
+    right: var(--crt-form-right);
+    top: 23%;
+    bottom: var(--crt-form-bottom);
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+    align-content: center;
+    width: 55%;
+    height: 52%;
+  }
+
+  .contact-form span {
+    font-size: 0.58rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 0.38rem 0.48rem;
+    font-size: 0.74rem;
+    line-height: 1.05;
+  }
+
+  .contact-form textarea {
+    min-height: 3.2rem;
+  }
+
+  .contact-form button {
+    justify-self: stretch;
+    min-height: 2.05rem;
+    min-width: 0;
+    padding: 0.42rem 0.55rem;
+    font-size: 0.68rem;
   }
 }
 

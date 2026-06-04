@@ -231,6 +231,12 @@
           class="poster-image poster-image--tilt-strong"
           loading="lazy"
         >
+        <img
+          src="assets/baybeatsmspaint.png"
+          alt="Baybeats MS Paint artwork"
+          class="baybeats-mspaint"
+          loading="lazy"
+        >
       </div>
     </article>
   </div>
@@ -262,8 +268,8 @@
               Volunteer work
             </button>
 
-            <button class="folder-tab tab-achievements" type="button" data-panel="achievements">
-              Achievements
+            <button class="folder-tab tab-accomplishments" type="button" data-panel="accomplishments">
+              Accomplishments
             </button>
 
             <button class="folder-tab tab-school" type="button" data-panel="school">
@@ -371,7 +377,7 @@
               </div>
             </article>
 
-            <article class="paper-panel" data-panel="achievements">
+            <article class="paper-panel paper-panel--achievements" data-panel="accomplishments">
               <div class="paper-heading">
                 <p class="paper-kicker">Achievement file</p>
                 <h3>Accomplishments</h3>
@@ -445,11 +451,79 @@
 </section>
 
 
-        <footer id="contact" class="bg-white px-6 pb-6 sm:px-10 lg:px-14">
-          <div class="border-t border-black/20 pt-4 text-sm text-[#5a5a5a]">Hiii viviii</div>
+        <footer id="contact" class="contact-bar" aria-labelledby="contactTitle">
+          <div class="contact-bar__inner">
+            <div class="contact-bar__header">
+              <p class="contact-bar__eyebrow">CONTACT_ME.EXE</p>
+              <h2 id="contactTitle">Contact Me! ^__^</h2>
+              <img
+                src="assets/anomoclaris.gif"
+                alt=""
+                class="contact-bar__gif"
+                loading="lazy"
+                aria-hidden="true"
+              >
+            </div>
+
+            <div class="contact-crt">
+              <img
+                src="assets/crt.png"
+                alt=""
+                class="contact-crt__frame"
+                loading="lazy"
+                aria-hidden="true"
+              >
+
+              <form
+                class="contact-form"
+                action="mailto:234568P@mymail.nyp.edu.sg"
+                method="post"
+                enctype="text/plain"
+              >
+                <label>
+                  <span>Name</span>
+                  <input type="text" name="name" autocomplete="name" required>
+                </label>
+
+                <label>
+                  <span>Email</span>
+                  <input type="email" name="email" autocomplete="email" required>
+                </label>
+
+                <label class="contact-form__message">
+                  <span>Message</span>
+                  <textarea name="message" rows="3" required></textarea>
+                </label>
+
+                <button type="submit">EMAIL ME</button>
+              </form>
+            </div>
+          </div>
         </footer>
       </main>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const contactForm = document.querySelector('.contact-form');
+        if (!contactForm) return;
+
+        contactForm.addEventListener('submit', function (event) {
+          event.preventDefault();
+          const formData = new FormData(contactForm);
+          const name = formData.get('name') || '';
+          const email = formData.get('email') || '';
+          const message = formData.get('message') || '';
+          const body = [
+            `Name: ${name}`,
+            `Email: ${email}`,
+            '',
+            message
+          ].join('\n');
+
+          window.location.href = `mailto:234568P@mymail.nyp.edu.sg?subject=${encodeURIComponent('Portfolio contact')}&body=${encodeURIComponent(body)}`;
+        });
+      });
+    </script>
     <script>
       const heroImage = document.querySelector('.hero-img.hero-bounce');
       if (heroImage) {
@@ -605,8 +679,15 @@
     function activatePanel(name) {
       window.clearTimeout(pullTimer);
 
-      if (scene.classList.contains('is-open') && activePanel === name) {
+      const isOpen = scene.classList.contains('is-open');
+
+      if (isOpen && activePanel === name) {
         scene.classList.remove('is-open');
+        return;
+      }
+
+      if (isOpen) {
+        showPanel(name);
         return;
       }
 
