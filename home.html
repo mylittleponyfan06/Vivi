@@ -62,15 +62,25 @@
     <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
 
     <div class="min-h-screen w-full bg-white">
-      <header class="sticky top-0 z-50 border-t-[10px] border-[#262626] bg-white/95 backdrop-blur-sm px-6 sm:px-10">
+      <header class="site-header sticky top-0 z-50 border-t-[10px] border-[#262626] bg-white/95 backdrop-blur-sm px-6 sm:px-10">
         <div class="flex h-14 items-center justify-between">
           <div class="font-logo text-[2rem] leading-none text-ink">vivi</div>
           <nav aria-label="Primary" class="hidden gap-8 text-sm text-ink sm:flex">
-            <a href="#onclick="openAboutModal" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</a>
-            <a href="#Projects" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Hobbies</a>
-            <a href="#contact" class="rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Contact</a>
+            <button id="aboutNavButton" type="button" data-about-modal class="nav-link rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</button>
+            <a href="#achievements" class="nav-link rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Achievements</a>
+            <a href="#contact" class="nav-link rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Contact</a>
           </nav>
+          <button class="mobile-nav-toggle" type="button" aria-controls="mobileNav" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
+        <nav id="mobileNav" class="mobile-nav" aria-label="Mobile primary">
+          <button type="button" data-about-modal class="nav-link mobile-nav__item">About</button>
+          <a href="#achievements" class="nav-link mobile-nav__item">Achievements</a>
+          <a href="#contact" class="nav-link mobile-nav__item">Contact</a>
+        </nav>
       </header>
 
       <main id="content">
@@ -218,7 +228,7 @@
           loading="lazy"
         >
         <div class="poster-tag poster-tag--water" aria-label="WaterWaterMelons poster note">
-          <span>Performed at a fundraise gig <br> WaterWaterMelons - 43co</span>
+          <span>Performed at a fundraiser gig <br> - 43&co</span>
         </div>
       </div>
     </article>
@@ -243,7 +253,7 @@
           </div>
         </section>
 
-       <section class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
+       <section id="achievements" class="bg-white px-6 pb-12 pt-8 sm:px-10 lg:px-14 lg:pb-16">
   <div class="mx-auto w-full max-w-[1440px] space-y-10">
     <h2 class="text-center text-[2.25rem] font-semibold tracking-tight text-[#2d2d2d]">
       Achievements
@@ -602,11 +612,28 @@
           if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); markSeen() }
         })
 
-        const aboutNavButton = document.getElementById('aboutNavButton')
-        if(aboutNavButton){
-          aboutNavButton.addEventListener('click', function(e){
+        Array.from(document.querySelectorAll('[data-about-modal]')).forEach(function(aboutButton){
+          aboutButton.addEventListener('click', function(e){
             e.preventDefault()
             openModalFromFile('about_modal.html')
+          })
+        })
+
+        const mobileNavToggle = document.querySelector('.mobile-nav-toggle')
+        const mobileNav = document.getElementById('mobileNav')
+        if(mobileNavToggle && mobileNav){
+          mobileNavToggle.addEventListener('click', function(){
+            const isOpen = mobileNav.classList.toggle('is-open')
+            mobileNavToggle.classList.toggle('is-open', isOpen)
+            mobileNavToggle.setAttribute('aria-expanded', String(isOpen))
+          })
+
+          Array.from(mobileNav.querySelectorAll('a, button')).forEach(function(item){
+            item.addEventListener('click', function(){
+              mobileNav.classList.remove('is-open')
+              mobileNavToggle.classList.remove('is-open')
+              mobileNavToggle.setAttribute('aria-expanded', 'false')
+            })
           })
         }
       })
