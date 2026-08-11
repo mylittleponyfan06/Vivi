@@ -1,0 +1,22 @@
+
+  name: Deploy to Neocities
+
+  on:
+    push:
+      branches: [main]
+    workflow_dispatch:
+
+  permissions: {}
+
+  jobs:
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v6
+        - run: |
+            find assets -type f -print0 | while IFS= read -r -d '' file; do
+              curl --fail-with-body \
+                -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_KEY }}" \
+                -F "${file#./}=@$file" \
+                https://neocities.org/api/upload
+            done
