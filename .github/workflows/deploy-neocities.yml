@@ -1,4 +1,3 @@
-
   name: Deploy to Neocities
 
   on:
@@ -14,9 +13,16 @@
       steps:
         - uses: actions/checkout@v6
         - run: |
+            for file in index.html about_modal.html styles.css modal-styles.css; do
+              curl --fail-with-body \
+                -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_KEY }}" \
+                -F "$file=@$file" \
+                https://neocities.org/api/upload
+            done
+
             find assets -type f -print0 | while IFS= read -r -d '' file; do
               curl --fail-with-body \
                 -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_KEY }}" \
-                -F "${file#./}=@$file" \
+                -F "$file=@$file" \
                 https://neocities.org/api/upload
             done
