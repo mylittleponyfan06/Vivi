@@ -30,26 +30,18 @@
     <a href="#content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2">Skip to content</a>
 
     <div class="min-h-screen w-full bg-white">
-      <header class="site-header sticky top-0 z-50 border-t-[10px] border-[#262626] bg-white/95 backdrop-blur-sm px-6 sm:px-10">
-        <div class="flex h-14 items-center justify-between">
-          <div class="font-logo text-[2rem] leading-none text-ink">vivi</div>
-          <nav aria-label="Primary" class="hidden gap-8 text-sm text-ink sm:flex">
-            <button id="aboutNavButton" type="button" data-about-modal class="nav-link rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">About</button>
-            <a href="#achievements" class="nav-link rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Achievements</a>
-            <a href="#contact" class="nav-link rounded px-2 py-1 hover:text-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive">Contact</a>
-          </nav>
-          <button class="mobile-nav-toggle" type="button" aria-controls="mobileNav" aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+      <nav class="piano-nav" aria-label="Primary">
+        <div class="piano-nav__keys" id="pianoNavLinks">
+          <button type="button" data-about-modal class="piano-nav__key piano-nav__key--about">About</button>
+          <a href="#achievements" class="piano-nav__key piano-nav__key--achievements">Achievements</a>
+          <a href="#contact" class="piano-nav__key piano-nav__key--contact">Contact</a>
         </div>
-        <nav id="mobileNav" class="mobile-nav" aria-label="Mobile primary">
-          <button type="button" data-about-modal class="nav-link mobile-nav__item">About</button>
-          <a href="#achievements" class="nav-link mobile-nav__item">Achievements</a>
-          <a href="#contact" class="nav-link mobile-nav__item">Contact</a>
-        </nav>
-      </header>
+        <button class="piano-nav__toggle" type="button" aria-controls="pianoNavLinks" aria-expanded="false" aria-label="Open navigation">
+          <span class="piano-nav__white-key"></span>
+          <span class="piano-nav__white-key"></span>
+          <span class="piano-nav__white-key"></span>
+        </button>
+      </nav>
 
       <main id="content">
         <section id="about" class="paint-banner" aria-label="Interactive portfolio banner">
@@ -476,22 +468,23 @@
       document.addEventListener('DOMContentLoaded', function(){
         const btn = document.getElementById('notesAppButton')
         const badge = document.getElementById('notesAppBadge')
-        if(!btn || !badge) return
-        // Always show badge on load; hide only for the current page view when activated
-        badge.classList.remove('hidden'); badge.setAttribute('aria-hidden','false')
+        if(btn && badge){
+          // Always show badge on load; hide only for the current page view when activated
+          badge.classList.remove('hidden'); badge.setAttribute('aria-hidden','false')
 
-        function markSeen(){
-          badge.classList.add('hidden')
-          badge.setAttribute('aria-hidden','true')
+          function markSeen(){
+            badge.classList.add('hidden')
+            badge.setAttribute('aria-hidden','true')
+          }
+
+          btn.addEventListener('click', function(e){
+            markSeen()
+            openModalFromFile('about_modal.html')
+          })
+          btn.addEventListener('keydown', function(e){
+            if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); markSeen() }
+          })
         }
-
-        btn.addEventListener('click', function(e){
-          markSeen()
-          openModalFromFile('about_modal.html')
-        })
-        btn.addEventListener('keydown', function(e){
-          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); markSeen() }
-        })
 
         Array.from(document.querySelectorAll('[data-about-modal]')).forEach(function(aboutButton){
           aboutButton.addEventListener('click', function(e){
@@ -500,21 +493,31 @@
           })
         })
 
-        const mobileNavToggle = document.querySelector('.mobile-nav-toggle')
-        const mobileNav = document.getElementById('mobileNav')
-        if(mobileNavToggle && mobileNav){
-          mobileNavToggle.addEventListener('click', function(){
-            const isOpen = mobileNav.classList.toggle('is-open')
-            mobileNavToggle.classList.toggle('is-open', isOpen)
-            mobileNavToggle.setAttribute('aria-expanded', String(isOpen))
-          })
+        const pianoNav = document.querySelector('.piano-nav')
+        const pianoToggle = pianoNav && pianoNav.querySelector('.piano-nav__toggle')
+        const pianoLinks = pianoNav && pianoNav.querySelectorAll('.piano-nav__key')
+        if(pianoNav && pianoToggle){
+          function setPianoOpen(isOpen){
+            pianoNav.classList.toggle('is-open', isOpen)
+            pianoToggle.setAttribute('aria-expanded', String(isOpen))
+            pianoToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation')
+            pianoNav.querySelector('.piano-nav__keys').setAttribute('aria-hidden', String(!isOpen))
+            pianoLinks.forEach(function(item){ item.tabIndex = isOpen ? 0 : -1 })
+          }
 
-          Array.from(mobileNav.querySelectorAll('a, button')).forEach(function(item){
-            item.addEventListener('click', function(){
-              mobileNav.classList.remove('is-open')
-              mobileNavToggle.classList.remove('is-open')
-              mobileNavToggle.setAttribute('aria-expanded', 'false')
-            })
+          setPianoOpen(false)
+
+          pianoToggle.addEventListener('click', function(){
+            setPianoOpen(!pianoNav.classList.contains('is-open'))
+          })
+          pianoLinks.forEach(function(item){
+            item.addEventListener('click', function(){ setPianoOpen(false) })
+          })
+          document.addEventListener('keydown', function(event){
+            if(event.key === 'Escape') setPianoOpen(false)
+          })
+          document.addEventListener('pointerdown', function(event){
+            if(!pianoNav.contains(event.target)) setPianoOpen(false)
           })
         }
       })

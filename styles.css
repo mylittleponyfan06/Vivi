@@ -1051,69 +1051,116 @@ body {
 .nav-link:hover {
   text-decoration: none;
 }
-.site-header {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-}
 #content {
-  padding-top: 4rem;
+  padding-top: 0;
 }
 #achievements,
 #contact {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 1.5rem;
 }
-.mobile-nav-toggle {
-  display: none;
-  width: 2.35rem;
-  height: 2.35rem;
-  border: 0;
-  background: transparent;
-  padding: 0.45rem;
+.piano-nav {
+  --piano-width: clamp(6.5rem, 10vw, 2rem);
+  --key-width: clamp(11rem, 22vw, 18rem);
+  position: fixed;
+  z-index: 60;
+  top: clamp(1rem, 6vh, 4rem);
+  right: clamp(0.75rem, 3vw, 3rem);
+  left: auto;
+  width: var(--piano-width);
+  height: var(--piano-width);
+  isolation: isolate;
+}
+.piano-nav__toggle {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 1px solid rgba(38, 38, 38, 0.4);
+  background: #fff;
+  box-shadow: 0 0.5rem 1.25rem rgba(38, 38, 38, 0.12);
   cursor: pointer;
 }
-.mobile-nav-toggle span {
-  display: block;
-  height: 2px;
-  margin: 0.32rem 0;
-  background: #262626;
-  transition:
-    transform 0.18s ease,
-    opacity 0.18s ease;
+.piano-nav__white-key {
+  position: relative;
+  border-bottom: 1px solid rgba(38, 38, 38, 0.4);
 }
-.mobile-nav-toggle.is-open span:first-child {
-  transform: translateY(0.44rem) rotate(45deg);
+.piano-nav__white-key:last-of-type {
+  border-bottom: 0;
 }
-.mobile-nav-toggle.is-open span:nth-child(2) {
-  opacity: 0;
-}
-.mobile-nav-toggle.is-open span:nth-child(3) {
-  transform: translateY(-0.44rem) rotate(-45deg);
-}
-.mobile-nav {
+.piano-nav__black-key {
   display: none;
 }
+.piano-nav__keys {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  width: var(--key-width);
+  pointer-events: none;
+}
+.piano-nav__key {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--piano-width) * 0.75);
+  height: 23%;
+  padding: 0 1rem;
+  border: 0;
+  background: #444;
+  color: transparent;
+  font: 400 clamp(1.25rem, 2.8vw, 2.5rem)/1 Montserrat, sans-serif;
+  text-decoration: none;
+  opacity: 1;
+  transform: translateX(0) rotate(0deg) scale(1);
+  transform-origin: right center;
+  transition: transform 0.62s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, color 0.35s ease, width 0.62s cubic-bezier(0.22, 1, 0.36, 1), height 0.62s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.piano-nav__key--about { top: 0; transition-delay: 0.12s; }
+.piano-nav__key--achievements { top: 39%; transition-delay: 0.04s; }
+.piano-nav__key--contact { top: 77%; transition-delay: 0s; }
+.piano-nav.is-open .piano-nav__key {
+  opacity: 1;
+  color: #fff;
+  transform: translateX(-50%) rotate(var(--open-rotation)) scale(1);
+  pointer-events: auto;
+}
+.piano-nav.is-open .piano-nav__key--achievements {
+  transform: translateX(-20%) translateY(5rem) rotate(var(--open-rotation)) scale(1);
+}
+.piano-nav.is-open .piano-nav__key--contact {
+  transform: translateX(-40%) translateY(1rem) rotate(var(--open-rotation)) scale(1);
+}
+.piano-nav__key--about { --open-rotation: -5deg; }
+.piano-nav__key--achievements { --open-rotation: -12deg; }
+.piano-nav__key--contact { --open-rotation: 5deg; }
+.piano-nav.is-open .piano-nav__key { width: var(--key-width); height: clamp(3.5rem, 4vw, 4rem); }
+.piano-nav__key:hover,
+.piano-nav__key:focus-visible {
+  background: #353535;
+}
+.piano-nav__toggle:focus-visible,
+.piano-nav__key:focus-visible {
+  outline: 3px solid #8b9a55;
+  outline-offset: 4px;
+}
 @media (max-width: 639px) {
-  .mobile-nav-toggle {
-    display: inline-block;
+  .piano-nav {
+    --piano-width: 4rem;
+    --key-width: min(11rem, calc(100vw - 1.5rem));
   }
-  .mobile-nav {
-    display: flex;
-    flex-direction: column;
-    max-height: 0;
-    border-top: 1px solid rgba(38, 38, 38, 0.14);
-    overflow: hidden;
-    transition: max-height 0.18s ease;
-  }
-  .mobile-nav.is-open {
-    max-height: 14rem;
-  }
-  .mobile-nav__item {
-    padding: 0.85rem 0;
-    text-align: left;
-    border-top: 1px solid rgba(38, 38, 38, 0.08);
-  }
+  .piano-nav__key { height: 22%; }
+  .piano-nav.is-open .piano-nav__key { height: 2.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .piano-nav__key { transition-duration: 0.01ms; }
 }
 .dossier-scene {
   position: relative;
