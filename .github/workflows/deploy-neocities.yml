@@ -20,7 +20,13 @@
                 https://neocities.org/api/upload
             done
 
-            find assets -type f -print0 | while IFS= read -r -d '' file; do
+            find assets vendor/jspaint -type f \( \
+              -iname '*.bin' -o -iname '*.css' -o -iname '*.gif' -o \
+              -iname '*.htm' -o -iname '*.html' -o -iname '*.ico' -o \
+              -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.js' -o \
+              -iname '*.json' -o -iname '*.map' -o -iname '*.png' -o \
+              -iname '*.svg' -o -iname '*.webmanifest' -o -iname '*.webp' \
+            \) -print0 | while IFS= read -r -d '' file; do
               curl --fail-with-body \
                 -H "Authorization: Bearer ${{ secrets.NEOCITIES_API_KEY }}" \
                 -F "$file=@$file" \

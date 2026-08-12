@@ -10,38 +10,6 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="modal-styles.css">
     <style>
-      .hero-bounce:hover {
-        animation: bounce-sm 0.6s ease-in-out infinite;
-        outline: none;
-      }
-
-      .hero-bounce {
-        outline: none;
-        transform: translateX(-1rem);
-        will-change: transform;
-        touch-action: none;
-        cursor: grab;
-      }
-
-      .hero-bounce.hero-following {
-        position: fixed;
-        z-index: 60;
-        cursor: grabbing;
-        transform: translate(-50%, -50%) scale(0.5) !important;
-        transition: transform 0.1s ease;
-      }
-
-      .hero-visual:hover .hero-img.no-hover-box,
-      .hero-img.no-hover-box:hover {
-        box-shadow: none !important;
-      }
-
-      @keyframes bounce-sm {
-        0%, 100% { transform: translateX(-1rem) translateY(0); }
-        25%, 75% { transform: translateX(-2rem) translateY(-5px); }
-        50% { transform: translateX(-2rem) translateY(-8px); }
-      }
-
       /* Notes app file aesthetic (iOS-like shadow/backdrop, no border) */
       .app-file-container{display:flex;gap:1rem;padding:1rem 1.5rem;align-items:center}
       .app-file{display:inline-flex;flex-direction:column;align-items:center;gap:0.35rem;background:transparent;border:none;cursor:pointer}
@@ -84,45 +52,15 @@
       </header>
 
       <main id="content">
-        <section id="about" class="relative min-h-[300px] overflow-hidden px-6 py-8 sm:px-10 sm:py-12 lg:min-h-[420px] lg:px-14">
-    <img
-      src="assets/header-background.jpg"
-      alt="Digital Portfolio header background"
-      class="absolute inset-0 h-full w-full object-cover object-top"
-      loading="eager"
-      onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'music-paper absolute inset-0'}))"
-    >
-
-    <div class="absolute inset-0 bg-white/10"></div>
-
-    <!-- <div class="pointer-events-none absolute left-0 right-0 top-4 z-10 opacity-80">
-      <div class="staff-notes -translate-x-6">𝄞 ♪ ♫ ♩ ♬ ♪ ♫ ♩ ♪ ♫</div>
-    </div> -->
-
-      <div class="relative z-20 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-      <div class="max-w-[34rem] pt-8 sm:pt-12">
-        <p class="mb-6 text-base font-medium text-ink">Vivian Braberry’s</p>
-        <h1 class="font-display text-[clamp(3rem,7vw,5.5rem)] font-medium uppercase leading-[0.9] tracking-[-0.04em] text-olive">
-          Digital<br />Portfolio
-        </h1>
-        <div class="mt-10 max-w-md text-[15px] leading-7 text-ink">
-          <p><span class="font-semibold">Currently Pursuing</span>:</p>
-          <p>Nanyang Polytechnic, Singapore</p>
-          <p>Diploma in Chemical &amp; Pharmaceutical Technology</p>
-        </div>
-      </div>
-
-      <div class="hero-visual flex items-center justify-center lg:justify-end">
-        <img
-          src="assets/anomoclaris.gif"
-          alt="anomoclaris hero visual"
-          class="hero-img hero-bounce no-hover-box h-auto w-[min(30vw,280px)] -translate-x-4 transform object-contain focus:outline-none"
-          loading="lazy"
-          onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'placeholder hero-img flex h-[220px] w-[220px] items-center justify-center rounded-2xl text-center p-6',innerHTML:'<div><div class=\'placeholder-label mb-3\'>Hero image</div><div>anomoclaris.gif</div></div>'}))"
-        >
-      </div>
-    </div>
-  </section>
+        <section id="about" class="paint-banner" aria-label="Interactive portfolio banner">
+          <iframe
+            class="paint-banner__app"
+            src="vendor/jspaint/"
+            title="JS Paint drawing area"
+            loading="eager"
+          ></iframe>
+          <img class="paint-banner__hero" src="assets/anomoclaris.gif" alt="Animated Anomoclaris" loading="eager">
+        </section>
 
         <section id="hobbies" class="bg-white px-6 pb-8 pt-4 sm:px-10 lg:px-14">
           <div class="mb-5 text-center text-2xl font-semibold text-black">(･ω･)つ ──────────── ⊂(･ω･)</div>
@@ -533,63 +471,6 @@
           window.location.href = `mailto:234568P@mymail.nyp.edu.sg?subject=${encodeURIComponent('Portfolio contact')}&body=${encodeURIComponent(body)}`;
         });
       });
-    </script>
-    <script>
-      const heroImage = document.querySelector('.hero-img.hero-bounce');
-      if (heroImage) {
-        let following = false;
-        let currentPointerId = null;
-        let targetX = 0;
-        let targetY = 0;
-        let currentX = 0;
-        let currentY = 0;
-        let rafId = null;
-
-        function animateFollow() {
-          currentX += (targetX - currentX) * 0.16;
-          currentY += (targetY - currentY) * 0.16;
-          heroImage.style.left = `${currentX}px`;
-          heroImage.style.top = `${currentY}px`;
-          if (following) {
-            rafId = requestAnimationFrame(animateFollow);
-          }
-        }
-
-        function toggleFollowing(event) {
-          event.preventDefault();
-          if (following) {
-            stopFollowing();
-            return;
-          }
-
-          following = true;
-          targetX = event.clientX;
-          targetY = event.clientY;
-          currentX = event.clientX;
-          currentY = event.clientY;
-          heroImage.classList.add('hero-following');
-          document.addEventListener('pointermove', onPointerMove);
-          animateFollow();
-        }
-
-        function onPointerMove(event) {
-          if (!following) return;
-          targetX = event.clientX;
-          targetY = event.clientY;
-        }
-
-        function stopFollowing() {
-          if (!following) return;
-          following = false;
-          heroImage.classList.remove('hero-following');
-          heroImage.style.left = '';
-          heroImage.style.top = '';
-          document.removeEventListener('pointermove', onPointerMove);
-          cancelAnimationFrame(rafId);
-        }
-
-        heroImage.addEventListener('click', toggleFollowing);
-      }
     </script>
     <script>
       document.addEventListener('DOMContentLoaded', function(){
