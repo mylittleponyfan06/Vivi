@@ -199,7 +199,7 @@
 
     <div class="dossier-scene" id="dossierScene">
       <div class="dossier-left">
-        <div class="folder-stack" id="folderStack" aria-label="Achievement categories">
+        <div class="folder-stack" id="folderStack">
           <img
             src="assets/folder.png"
             alt="Confidential file folder"
@@ -207,20 +207,20 @@
             loading="lazy"
           >
 
-          <div class="folder-tabs">
-            <button class="folder-tab tab-cca is-active" type="button" data-panel="cca">
+          <div class="folder-tabs" role="tablist" aria-label="Achievement categories">
+            <button class="folder-tab tab-cca is-active" type="button" role="tab" id="achievement-tab-cca" aria-controls="achievement-panel-cca" aria-selected="true" tabindex="0" data-panel="cca">
               CCA
             </button>
 
-            <button class="folder-tab tab-volunteer" type="button" data-panel="volunteer">
+            <button class="folder-tab tab-volunteer" type="button" role="tab" id="achievement-tab-volunteer" aria-controls="achievement-panel-volunteer" aria-selected="false" tabindex="-1" data-panel="volunteer">
               Volunteer work
             </button>
 
-            <button class="folder-tab tab-accomplishments" type="button" data-panel="accomplishments">
+            <button class="folder-tab tab-accomplishments" type="button" role="tab" id="achievement-tab-accomplishments" aria-controls="achievement-panel-accomplishments" aria-selected="false" tabindex="-1" data-panel="accomplishments">
               Accomplishments
             </button>
 
-            <button class="folder-tab tab-school" type="button" data-panel="school">
+            <button class="folder-tab tab-school" type="button" role="tab" id="achievement-tab-school" aria-controls="achievement-panel-school" aria-selected="false" tabindex="-1" data-panel="school">
               School
             </button>
           </div>
@@ -244,7 +244,7 @@
           >
 
           <div class="paper-content">
-            <article class="paper-panel is-active" data-panel="cca">
+            <article class="paper-panel is-active" id="achievement-panel-cca" role="tabpanel" aria-labelledby="achievement-tab-cca" data-panel="cca">
               <div class="paper-heading">
                 <p class="paper-kicker">CCA file</p>
                 <h3>CCA</h3>
@@ -300,7 +300,7 @@
               </div>
             </article>
 
-            <article class="paper-panel" data-panel="volunteer">
+            <article class="paper-panel" id="achievement-panel-volunteer" role="tabpanel" aria-labelledby="achievement-tab-volunteer" data-panel="volunteer">
               <div class="paper-heading">
                 <p class="paper-kicker">Community file</p>
                 <h3>Volunteer work</h3>
@@ -325,7 +325,7 @@
               </div>
             </article>
 
-            <article class="paper-panel paper-panel--achievements" data-panel="accomplishments">
+            <article class="paper-panel paper-panel--achievements" id="achievement-panel-accomplishments" role="tabpanel" aria-labelledby="achievement-tab-accomplishments" data-panel="accomplishments">
               <div class="paper-heading">
                 <p class="paper-kicker">Achievement file</p>
                 <h3>Accomplishments</h3>
@@ -384,7 +384,7 @@
               </div>
             </article>
 
-            <article class="paper-panel" data-panel="school">
+            <article class="paper-panel" id="achievement-panel-school" role="tabpanel" aria-labelledby="achievement-tab-school" data-panel="school">
               <div class="paper-heading">
                 <p class="paper-kicker">Academic file</p>
                 <h3>School</h3>
@@ -576,7 +576,10 @@
       activePanel = name;
 
       tabs.forEach(tab => {
-        tab.classList.toggle('is-active', tab.dataset.panel === name);
+        const isActive = tab.dataset.panel === name;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-selected', String(isActive));
+        tab.tabIndex = isActive ? 0 : -1;
       });
 
       panels.forEach(panel => {
@@ -588,11 +591,6 @@
       window.clearTimeout(pullTimer);
 
       const isOpen = scene.classList.contains('is-open');
-
-      if (isOpen && activePanel === name) {
-        scene.classList.remove('is-open');
-        return;
-      }
 
       if (isOpen) {
         showPanel(name);
@@ -628,6 +626,27 @@
 
       tab.addEventListener('focus', function () {
         scene.classList.add('is-hovering');
+      });
+
+      tab.addEventListener('keydown', function (e) {
+        const currentIndex = tabs.indexOf(tab);
+        let nextIndex = null;
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          nextIndex = (currentIndex + 1) % tabs.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        } else if (e.key === 'Home') {
+          nextIndex = 0;
+        } else if (e.key === 'End') {
+          nextIndex = tabs.length - 1;
+        }
+
+        if (nextIndex !== null) {
+          e.preventDefault();
+          tabs[nextIndex].focus();
+          activatePanel(tabs[nextIndex].dataset.panel);
+        }
       });
     });
 
