@@ -1145,6 +1145,7 @@ body {
   color: #fff;
   transform: translateX(0) rotate(var(--open-rotation)) scale(0.8);
   pointer-events: auto;
+  box-shadow: -0.55rem 0.55rem 0 rgba(38, 38, 38, 0.22);
 }
 .piano-nav.is-open .piano-nav__key--achievements {
   transform: translateX(0) translateY(242%) rotate(var(--open-rotation)) scale(0.8);
