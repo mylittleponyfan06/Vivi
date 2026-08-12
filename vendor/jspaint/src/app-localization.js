@@ -48,15 +48,7 @@
 
 	const language_storage_key = "jspaint language";
 	// @ts-ignore
-	const accepted_languages = Array.from(navigator.languages || [navigator.language || navigator.userLanguage]);
-	try {
-		if (localStorage[language_storage_key]) {
-			accepted_languages.unshift(localStorage[language_storage_key]);
-		}
-	} catch (_error) {
-		// if there's no localStorage access, you can still configure the language via system settings, theoretically
-		// TODO: also via URL?
-	}
+	const accepted_languages = ["en"];
 
 	var language_to_default_region = {
 		aa: "ET",

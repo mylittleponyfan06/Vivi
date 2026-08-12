@@ -7,16 +7,13 @@ import { $ColorBox } from "./$ColorBox.js";
 import { $ToolBox } from "./$ToolBox.js";
 import { Handles } from "./Handles.js";
 // import { get_direction, localize } from "./app-localization.js";
-import { default_palette, get_winter_palette } from "./color-data.js";
+import { default_palette } from "./color-data.js";
 import { image_formats } from "./file-format-data.js";
-import { $this_version_news, cancel, change_some_url_params, change_url_param, clear, confirm_overwrite_capability, delete_selection, deselect, edit_copy, edit_cut, edit_paste, file_new, file_open, file_save, file_save_as, get_tool_by_id, get_uris, image_attributes, image_flip_and_rotate, image_invert_colors, image_stretch_and_skew, load_image_from_uri, make_or_update_undoable, open_from_file, paste, paste_image_from_file, redo, render_history_as_gif, reset_canvas_and_history, reset_file, reset_selected_colors, resize_canvas_and_save_dimensions, resize_canvas_without_saving_dimensions, save_as_prompt, select_all, select_tool, select_tools, set_magnification, show_document_history, show_error_message, show_news, show_resource_load_error_message, toggle_grid, undo, update_canvas_rect, update_disable_aa, update_helper_layer, update_magnified_canvas_size, view_bitmap, write_image_file } from "./functions.js";
-import { show_help } from "./help.js";
+import { cancel, change_some_url_params, change_url_param, clear, confirm_overwrite_capability, delete_selection, deselect, edit_copy, edit_cut, edit_paste, file_new, file_open, file_save, file_save_as, get_tool_by_id, get_uris, image_attributes, image_flip_and_rotate, image_invert_colors, image_stretch_and_skew, load_image_from_uri, make_or_update_undoable, open_from_file, paste, paste_image_from_file, redo, reset_canvas_and_history, reset_file, reset_selected_colors, resize_canvas_and_save_dimensions, resize_canvas_without_saving_dimensions, save_as_prompt, select_all, select_tool, select_tools, set_magnification, show_document_history, show_error_message, show_resource_load_error_message, toggle_grid, undo, update_canvas_rect, update_disable_aa, update_helper_layer, update_magnified_canvas_size, view_bitmap, write_image_file } from "./functions.js";
 import { $G, E, TAU, get_file_extension, get_help_folder_icon, is_discord_embed, make_canvas, to_canvas_coords } from "./helpers.js";
 import { init_webgl_stuff, rotate } from "./image-manipulation.js";
 import { menus } from "./menus.js";
 import { showMessageBox } from "./msgbox.js";
-import { stopSimulatingGestures } from "./simulate-random-gestures.js";
-import { disable_speech_recognition, enable_speech_recognition, trace_and_sketch_stop } from "./speech-recognition.js";
 import { localStore } from "./storage.js";
 import { get_theme, set_theme } from "./theme.js";
 import { TOOL_AIRBRUSH, TOOL_BRUSH, TOOL_CURVE, TOOL_ELLIPSE, TOOL_ERASER, TOOL_LINE, TOOL_PENCIL, TOOL_POLYGON, TOOL_RECTANGLE, TOOL_ROUNDED_RECTANGLE, TOOL_SELECT, tools } from "./tools.js";
@@ -311,20 +308,6 @@ for (const [key, defaultValue] of Object.entries(window.systemHookDefaults)) {
 
 // #region URL Params
 const update_from_url_params = () => {
-	// Dwell Clicker
-	// (Head Tracker implies Dwell Clicker for now, but could be made independent if Tracky Mouse supports other modes in the future.)
-	if (location.hash.match(/dwell-clicker|head-tracker/i)) {
-		if (!$("body").hasClass("dwell-clicker-mode")) {
-			$("body").addClass("dwell-clicker-mode");
-			$G.triggerHandler("dwell-clicker-toggled");
-		}
-	} else {
-		if ($("body").hasClass("dwell-clicker-mode")) {
-			$("body").removeClass("dwell-clicker-mode");
-			$G.triggerHandler("dwell-clicker-toggled");
-		}
-	}
-
 	// Enlarge UI
 	if (location.hash.match(/enlarge-ui/i)) {
 		if (!$("body").hasClass("enlarge-ui")) {
@@ -370,26 +353,6 @@ const update_from_url_params = () => {
 		}
 	}
 
-	// Head Tracker Mode
-	if (location.hash.match(/head-tracker/i)) {
-		if (!$("body").hasClass("head-tracker-mode")) {
-			$("body").addClass("head-tracker-mode");
-			$G.triggerHandler("head-tracker-toggled");
-		}
-	} else {
-		if ($("body").hasClass("head-tracker-mode")) {
-			$("body").removeClass("head-tracker-mode");
-			$G.triggerHandler("head-tracker-toggled");
-		}
-	}
-
-	// Speech Recognition Mode
-	if (location.hash.match(/speech-recognition-mode/i)) {
-		enable_speech_recognition();
-	} else {
-		disable_speech_recognition();
-	}
-
 	// Developer helpers to compare with reference screenshots of MS Paint
 	// (Seems like the color box is getting (un)shifted when this is enabled, making it line up less than it should?
 	// like the code "// Nudge the Colors component over a tiny bit" is applying and then being reset.)
@@ -428,39 +391,10 @@ const update_from_url_params = () => {
 		}
 	}, 500);
 
-	// dev helper to open Project News window to preview news write-up
-	// I'm naming this "force-open-project-news" and not simply "project-news"
-	// because I'm not handling closing the window, and I don't want it to sound
-	// super friendly.
-	// I did go on a tangent of making it a proper UI navigation URL hash,
-	// and binding the window state to the URL state (bidirectionally),
-	// but I'm not sure how it should work with the back button.
-	// It's probably nice on mobile for the back button to close windows,
-	// but I'd want it to be consistent between all the windows of the app.
-	if (location.hash.match(/force-open-project-news/i)) {
-		if (!$(".news-window:visible").length) {
-			show_news();
-		}
-	}
 };
 update_from_url_params();
 $G.on("hashchange popstate change-url-params", update_from_url_params);
 
-// handle backwards compatibility URLs
-// Eye Gaze Mode was a monolithic feature that has been since been split into smaller features.
-// We can maintain backwards compatibility with the old URL param by mapping it to the new features.
-// (BTW: Eye Gaze Mode never included an actual eye tracker (instead relying on external software),
-// but if I added that as a feature I could call the feature Eye Tracker, so it wouldn't be too confusing.)
-if (location.search.match(/eye-gaze-mode/) || location.hash.match(/eye-gaze-mode/)) {
-	change_some_url_params({
-		"eye-gaze-mode": false,
-		"enlarge-ui": true,
-		"dwell-clicker": true,
-		"vertical-color-box-mode": true,
-		"easy-undo": true,
-	}, { replace_history_state: true });
-	update_from_url_params();
-}
 if (location.search.match(/vertical-colors?-box/)) {
 	change_url_param("vertical-color-box", true, { replace_history_state: true });
 	update_from_url_params();
@@ -527,117 +461,8 @@ window.$status_position = $status_position;
 const $status_size = $(E("div")).addClass("status-coordinates status-field inset-shallow").appendTo($status_area);
 window.$status_size = $status_size;
 
-// #region News Indicator
-const news_seen_key = "jspaint latest news seen";
-const latest_news_datetime = $this_version_news.find("time").attr("datetime");
-const $news_indicator = $(`
-	<a class="news-indicator" href="#project-news">
-		<!--<img src="images/winter/present.png" width="24" height="22" alt=""/>-->
-		<!--<img src="images/about/news.gif" width="40" height="16" alt=""/>-->
-		<img src="images/new.gif" width="40" height="16" alt=""/>
-		<span>
-			<b>Font Finesse</b>
-		</span>
-		<!--<span class="marquee" dir="ltr" style="--text-width: 44ch; --animation-duration: 3s;">
-			<span>
-				<b>Cool new things</b> — One thing! Another thing! Something else!
-			</span>
-		</span>
-		<span>
-			<b>Just One Thing</b>
-		</span>-->
-	</a>
-`);
-$news_indicator.on("click auxclick", (event) => {
-	event.preventDefault();
-	show_news();
-	$news_indicator.remove();
-	try {
-		localStorage[news_seen_key] = latest_news_datetime;
-	} catch (_error) { /* ignore */ }
-});
-let news_seen;
-let local_storage_unavailable;
-try {
-	news_seen = localStorage[news_seen_key];
-} catch (_error) {
-	local_storage_unavailable = true;
-}
-const day = 24 * 60 * 60 * 1000;
-const news_period_if_can_dismiss = 15 * day;
-const news_period_if_cannot_dismiss = 5 * day;
-const news_period = local_storage_unavailable ? news_period_if_cannot_dismiss : news_period_if_can_dismiss;
-if (Date.now() < Date.parse(latest_news_datetime) + news_period && news_seen !== latest_news_datetime) {
-	$status_area.append($news_indicator);
-}
-if ($news_indicator.text().includes("Bubblegum")) {
-	let bubbles_raf_id = -1;
-	const bubbles = [];
-	const make_bubble = () => {
-		const $bubble = $(E("img")).attr({
-			src: "images/bubblegum/bubble.png",
-			width: 24,
-			height: 24,
-			alt: "",
-		}).css({
-			position: "absolute",
-			pointerEvents: "none",
-			top: 0,
-			left: 0,
-			zIndex: 10,
-		}).appendTo("body");
-		const rect = $news_indicator[0].getBoundingClientRect();
-		const x = rect.left + Math.random() * rect.width;
-		const y = rect.top + rect.height;
-		const scale = Math.random() * 0.5 + 0.5;
-		const bubble = { $bubble, x, y, scale, vx: Math.random() * 2 - 1, vy: -Math.random() * 2 };
-		bubbles.push(bubble);
-		if (bubbles_raf_id === -1) {
-			animate_bubbles();
-		}
-		setTimeout(() => {
-			$bubble.remove();
-			bubbles.splice(bubbles.indexOf(bubble), 1);
-			if (bubbles.length === 0) {
-				cancelAnimationFrame(bubbles_raf_id);
-				bubbles_raf_id = -1;
-			}
-		}, 10000);
-	};
-	let last_time = performance.now();
-	const animate_bubbles = () => {
-		bubbles_raf_id = requestAnimationFrame(animate_bubbles);
-		const now = performance.now();
-		const dt = now - last_time;
-		for (const bubble of bubbles) {
-			// not actually frame rate independent physics, I don't think
-			bubble.x += bubble.vx * dt / 16;
-			bubble.y += bubble.vy * dt / 16;
-			const wind_x = Math.sin(bubble.y / 100 + now / 3000) * 0.01;
-			const wind_y = Math.cos(bubble.x / 100 + now / 3000) * 0.01;
-			bubble.vx += wind_x;
-			bubble.vy += wind_y;
-			bubble.$bubble.css({
-				transform: `translate(${bubble.x}px, ${bubble.y}px) scale(${bubble.scale})`,
-			});
-		}
-		last_time = now;
-	};
-	$news_indicator.on("pointerenter", () => {
-		for (let i = 0; i < 10; i++) {
-			setTimeout(make_bubble, i * 100);
-		}
-	});
-	$news_indicator.on("pointerdown", () => {
-		for (let i = 0; i < 50; i++) {
-			setTimeout(make_bubble, i * 1);
-		}
-	});
-}
-// #endregion
-
 $status_text.default = () => {
-	$status_text.text(localize("For Help, click Help Topics on the Help Menu."));
+	$status_text.text(localize("Draw on the portfolio banner."));
 };
 $status_text.default();
 
@@ -669,102 +494,6 @@ $(menu_bar.element).on("info", (event) => {
 $(menu_bar.element).on("default-info", () => {
 	$status_text.default();
 });
-
-// Hidden in a menu, these GIFs are not as obtrusive even though they can't be dismissed
-const theme_updated_period = 20 * day;
-const theme_new_period = 40 * day;
-const theme_soon_period = 40 * day;
-if (Date.now() < Date.parse("2024-02-22") + theme_new_period) {
-	$("[role=menuitem][aria-label*='Modern Dark'] .menu-item-shortcut").append("<img src='images/new2.gif' alt='New!'/>");
-}
-if (Date.now() < Date.parse("2024-02-24") + theme_soon_period) {
-	// $("[role=menuitem][aria-label*='Bubblegum'] .menu-item-shortcut").append("<img src='images/soon-twist-anim.gif' alt='Coming Soon!' class='too-big-soon-gif'/>");
-	// $("[role=menuitem][aria-label*='Retro Futurist'] .menu-item-shortcut").append("<img src='images/soon.gif' alt='Coming Soon!'/>");
-	// $("[role=menuitem][aria-label*='Picnic'] .menu-item-shortcut").append("<img src='images/soon.gif' alt='Coming Soon!'/>");
-}
-if (Date.now() < Date.parse("2024-02-22") + theme_updated_period) {
-	$("[role=menuitem][aria-label*='Modern Light'] .menu-item-shortcut").append("<img src='images/updated.gif' alt='Updated!'/>");
-	$("[role=menuitem][aria-label*='Classic Dark'] .menu-item-shortcut").append("<img src='images/updated.gif' alt='Updated!'/>");
-	$("[role=menuitem][aria-label*='Occult'] .menu-item-shortcut").append("<img src='images/updated.gif' alt='Updated!'/>");
-}
-
-// Extras menu emoji icons
-// (OS-GUI.js doesn't support icons yet but I wanted to spruce it up a bit.)
-// Originally I defined the emoji as part of the label, which worked well for a while.
-// Now I'm rendering the emoji as pseudo elements.
-// - It allows for matching on the menu item text exactly, without including emoji in my tests,
-//   which will hopefully be replaced with custom icons in the future.
-// - It makes it easier to replace the emoji with custom icons in the future.
-// - It hides the emoji from `aria-label`, for screen reader users.
-// - It makes the menu data cleaner.
-// - It allows aligning the emoji nicely, even when some don't show as emoji, depending on the platform.
-
-/**
- * @param {OSGUIMenuFragment[]} menu_items
- * @param {HTMLElement} menu_element
- * @yields {[OSGUIMenuItem, HTMLElement]}
- * @returns {Generator<[OSGUIMenuItem, HTMLElement], void, void>}
- */
-function* traverse_menu(menu_items, menu_element) {
-	// Traverse menu data and elements in tandem, yielding pairs of menu item specifications and elements.
-	// This approach handles identically named menu items in separate menus,
-	// as is the case with "File > Manage Storage" and "Edit > History", both present in the Extras menu,
-	// but also in the other menus for discoverability.
-	// However, it doesn't handle identically named menu items in the same menu,
-	// as it still matches up items within the menu using aria-label.
-
-	// Menu structure:
-	// - Menu popups are not descendants of the menu bar or other menu popups; they are always direct children of the body.
-	// - Menu items that open submenus have "aria-controls" pointing to the ID of the submenu.
-	// - (Menu popups also have "data-semantic-parent" pointing to the ID of the menu item that opens them.)
-	// - `submenu` is an array, but the top level (menu bar) is represented as an object, which is a bit awkward.
-	//   However, this function doesn't deal with the top level.
-
-	const menu_item_elements = /** @type {HTMLElement[]} */([...menu_element.querySelectorAll(".menu-item")]);
-	for (const menu_item of menu_items) {
-		if (typeof menu_item !== "object" || !("label" in menu_item)) {
-			continue;
-		}
-		const aria_label = AccessKeys.toText(menu_item.label);
-		const menu_item_element = menu_item_elements.filter((el) =>
-			el.getAttribute("aria-label") === aria_label
-		)[0];
-		if (!menu_item_element) {
-			console.warn("Couldn't find menu item", menu_item, "with aria-label", aria_label);
-			continue;
-		}
-		yield [menu_item, menu_item_element];
-		if (menu_item.submenu) {
-			yield* traverse_menu(menu_item.submenu, menu_document.getElementById(menu_item_element.getAttribute("aria-controls")));
-		}
-		// if (menu_item.radioItems) {
-		// 	yield* traverse_menu(menu_item.radioItems, menu_element);
-		// }
-	}
-}
-
-const menu_document = menu_bar.element.ownerDocument;
-const extras_menu_button = menu_document.querySelector(".extras-menu-button");
-const extras_menu_popup = menu_document.getElementById(extras_menu_button.getAttribute("aria-controls"));
-
-let emoji_css = `
-	.menu-item .menu-item-label::before {
-		display: inline-block;
-		width: 1.8em;
-		margin-right: 0.2em;
-		text-align: center;
-	}
-`;
-for (const [menu_item, menu_item_element] of traverse_menu(menus["E&xtras"], extras_menu_popup)) {
-	if (menu_item.emoji_icon) {
-		emoji_css += `
-			#${menu_item_element.id} .menu-item-label::before {
-				content: "${menu_item.emoji_icon}";
-			}
-		`;
-	}
-}
-$("<style>").text(emoji_css).appendTo(menu_document.head);
 
 // Electron menu integration
 if (window.is_electron_app) {
@@ -975,15 +704,10 @@ $G.on("keydown", (e) => {
 		} else {
 			cancel();
 		}
-		stopSimulatingGestures();
-		trace_and_sketch_stop();
 	} else if (e.key === "Enter") {
 		if (selection) {
 			deselect();
 		}
-	} else if (e.key === "F1") {
-		show_help();
-		e.preventDefault();
 	} else if (e.key === "F4") {
 		redo();
 	} else if (e.key === "Delete" || e.key === "Backspace") {
@@ -1102,12 +826,8 @@ $G.on("keydown", (e) => {
 				// Ctrl+Shift+Y handled above
 				redo();
 				break;
-			case "G":
-				if (e.shiftKey) {
-					render_history_as_gif();
-				} else {
-					toggle_grid();
-				}
+		case "G":
+			toggle_grid();
 				break;
 			case "F":
 				// @ts-ignore (repeat doesn't exist on jQuery.Event, I guess, but this is fine)
@@ -1338,13 +1058,8 @@ if (window.initial_system_file_handle) {
 // #region Palette Updating From Theme
 
 const update_palette_from_theme = () => {
-	if (get_theme() === "winter.css") {
-		palette = get_winter_palette();
-		$colorbox.rebuild_palette();
-	} else {
-		palette = default_palette;
-		$colorbox.rebuild_palette();
-	}
+	palette = default_palette;
+	$colorbox.rebuild_palette();
 };
 
 $G.on("theme-load", update_palette_from_theme);

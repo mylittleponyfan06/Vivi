@@ -5,14 +5,11 @@
 import { OnCanvasTextBox } from "./OnCanvasTextBox.js";
 import { show_edit_colors_window } from "./edit-colors.js";
 import { palette_formats } from "./file-format-data.js";
-import { are_you_sure, change_url_param, choose_file_to_paste, clear, delete_selection, deselect, edit_copy, edit_cut, edit_paste, file_load_from_url, file_new, file_open, file_print, file_save, file_save_as, image_attributes, image_flip_and_rotate, image_invert_colors, image_stretch_and_skew, redo, render_history_as_gif, sanity_check_blob, save_selection_to_file, select_all, set_magnification, show_about_paint, show_custom_zoom_window, show_document_history, show_file_format_errors, show_multi_user_setup_dialog, show_news, toggle_grid, toggle_thumbnail, undo, view_bitmap } from "./functions.js";
-import { show_help } from "./help.js";
+import { are_you_sure, change_url_param, choose_file_to_paste, clear, delete_selection, deselect, edit_copy, edit_cut, edit_paste, file_load_from_url, file_new, file_open, file_print, file_save, file_save_as, image_attributes, image_flip_and_rotate, image_invert_colors, image_stretch_and_skew, redo, sanity_check_blob, save_selection_to_file, select_all, set_magnification, show_about_paint, show_custom_zoom_window, show_document_history, show_file_format_errors, show_multi_user_setup_dialog, toggle_grid, toggle_thumbnail, undo, view_bitmap } from "./functions.js";
 import { $G, get_rgba_from_color, is_discord_embed } from "./helpers.js";
 import { show_imgur_uploader } from "./imgur.js";
 import { manage_storage } from "./manage-storage.js";
 import { showMessageBox } from "./msgbox.js";
-import { simulateRandomGesturesPeriodically, simulatingGestures, stopSimulatingGestures } from "./simulate-random-gestures.js";
-import { speech_recognition_active, speech_recognition_available } from "./speech-recognition.js";
 import { get_theme, set_theme } from "./theme.js";
 
 const looksLikeChrome = !!(window.chrome && (window.chrome.loadTimes || window.chrome.csi));
@@ -771,16 +768,6 @@ const menus = {
 	],
 	[localize("&Help")]: [
 		{
-			label: localize("&Help Topics"),
-			speech_recognition: [
-				"help topics", "help me", "show help", "help", "show help window", "show help topics", "open help",
-				"help viewer", "show help viewer", "open help viewer",
-			],
-			action: () => { show_help(); },
-			description: localize("Displays Help for the current task or command."),
-		},
-		MENU_DIVIDER,
-		{
 			label: localize("&About Paint"),
 			speech_recognition: [
 				"about paint", "about js paint", "about jspaint", "show about window", "open about window", "about window",
@@ -1401,6 +1388,9 @@ const menus = {
 		},
 	],
 };
+
+delete menus[localize("E&xtras")];
+delete menus[localize("&Help")];
 
 for (const [top_level_menu_key, menu] of Object.entries(menus)) {
 	const top_level_menu_name = top_level_menu_key.replace(/&/, "");

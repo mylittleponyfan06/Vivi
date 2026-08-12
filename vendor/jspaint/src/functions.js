@@ -1806,7 +1806,7 @@ function paste_image_from_file(blob) {
 // Edit > Paste From
 async function choose_file_to_paste() {
 	const { file } = await systemHooks.showOpenFileDialog({ formats: image_formats });
-	if (file.type.match(/^image|application\/pdf/)) {
+	if (file.type.match(/^image/)) {
 		paste_image_from_file(file);
 		return;
 	}
@@ -3915,11 +3915,6 @@ function read_image_file(blob, callback) {
 				detected_type_id = type_id;
 			}
 		}
-		if (!detected_type_id) {
-			if (String.fromCharCode(...file_bytes.slice(0, 1024)).includes("%PDF")) {
-				detected_type_id = "pdf";
-			}
-		}
 		if (detected_type_id === "bmp") {
 			const { colorTable, bitsPerPixel, imageData } = decodeBMP(arrayBuffer);
 			file_format = bitsPerPixel === 24 ? "image/bmp" : `image/bmp;bpp=${bitsPerPixel}`;
@@ -3993,51 +3988,6 @@ function read_image_file(blob, callback) {
 
 			file_format = "image/tiff";
 			callback(null, { file_format, monochrome, palette, image_data, source_blob: blob });
-		} else if (detected_type_id === "pdf") {
-			file_format = "application/pdf";
-
-			const pdfjs = window["pdfjs-dist/build/pdf"];
-
-			pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.js/build/pdf.worker.js";
-
-			const file_bytes = new Uint8Array(arrayBuffer);
-
-			const loadingTask = pdfjs.getDocument({
-				data: file_bytes,
-				cMapUrl: "lib/pdf.js/web/cmaps/",
-				cMapPacked: true,
-			});
-
-			loadingTask.promise.then((pdf) => {
-				console.log("PDF loaded");
-
-				// Fetch the first page
-				// TODO: maybe concatenate all pages into one image?
-				var pageNumber = 1;
-				pdf.getPage(pageNumber).then((page) => {
-					console.log("Page loaded");
-
-					var scale = 1.5;
-					var viewport = page.getViewport({ scale });
-
-					// Prepare canvas using PDF page dimensions
-					var canvas = make_canvas(viewport.width, viewport.height);
-
-					// Render PDF page into canvas context
-					var renderContext = {
-						canvasContext: canvas.ctx,
-						viewport,
-					};
-					var renderTask = page.render(renderContext);
-					renderTask.promise.then(() => {
-						console.log("Page rendered");
-						const image_data = canvas.ctx.getImageData(0, 0, canvas.width, canvas.height);
-						callback(null, { file_format, monochrome, palette, image_data, source_blob: blob });
-					});
-				});
-			}, (reason) => {
-				callback(new Error(`Failed to load PDF. ${reason}`));
-			});
 		} else {
 			monochrome = false;
 			file_format = {
