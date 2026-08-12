@@ -796,7 +796,7 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  pointer-events: auto;
+  pointer-events: none;
   filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.18));
   transition: transform 220ms ease, filter 220ms ease;
 }
@@ -814,7 +814,7 @@
   right: -7%;
   bottom: 13%;
   width: 42%;
-  z-index: 30;
+  z-index: 14;
   pointer-events: none;
   overflow: visible;
 }
@@ -824,7 +824,7 @@
   right: 0;
   width: clamp(10.5rem, 17vw, 14rem);
   min-height: 4.1rem;
-  z-index: 31;
+  z-index: 15;
   pointer-events: auto;
   border: 1px solid rgba(54, 40, 26, 0.28);
   border-radius: 2px 3px 3px 2px;
@@ -998,10 +998,28 @@
 }
 
 .dossier-pullout {
+  /*
+    Desktop paper / hand rig.
+    Adjust these values to place the assets without hunting through the CSS.
+  */
+  --paper-width: min(50.2vw, 640px);
+  --paper-aspect: 4 / 5;
+  --paper-closed-x: -42%;
+  --paper-closed-y: 0;
+  --paper-closed-rotate: -2deg;
+  --paper-open-x: 0;
+  --paper-open-y: 0;
+  --paper-open-rotate: -1.4deg;
+  --hand-top: -21%;
+  --hand-left: 27%;
+  --hand-width: 49%;
+  --hand-closed-x: -76%;
+  --hand-open-x: 0;
+  --hand-rotate: 0deg;
   position: absolute;
   left: clamp(215px, 27vw, 330px);
   top: 28px;
-  width: min(50.2vw, 640px);
+  width: var(--paper-width);
   z-index: 18;
   pointer-events: none;
 }
@@ -1009,9 +1027,12 @@
 .paper-shell {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: var(--paper-aspect);
   opacity: 0;
-  transform: translateX(-42%) rotate(-2deg) scale(0.97);
+  transform:
+    translate(var(--paper-closed-x), var(--paper-closed-y))
+    rotate(var(--paper-closed-rotate))
+    scale(0.97);
   transform-origin: left center;
   transition:
     opacity 180ms ease,
@@ -1020,7 +1041,10 @@
 
 .dossier-scene.is-open .paper-shell {
   opacity: 1;
-  transform: translateX(0) rotate(-1.4deg) scale(1);
+  transform:
+    translate(var(--paper-open-x), var(--paper-open-y))
+    rotate(var(--paper-open-rotate))
+    scale(1);
 }
 
 .paper-art {
@@ -1034,12 +1058,12 @@
 
 .hand-art {
   position: absolute;
-  top: 0;
-  left: -2%;
-  width: 49%;
+  top: var(--hand-top);
+  left: var(--hand-left);
+  width: var(--hand-width);
   z-index: 24;
   opacity: 0;
-  transform: translateX(-76%) translateY(-79%) rotate(-9deg);
+  transform: translateX(var(--hand-closed-x)) rotate(var(--hand-rotate));
   transition:
     opacity 160ms ease,
     transform 620ms cubic-bezier(.17, .86, .24, 1);
@@ -1047,7 +1071,7 @@
 
 .dossier-scene.is-open .hand-art {
   opacity: 1;
-  transform: translateX(0) translateY(-79%) rotate(-2deg);
+  transform: translateX(var(--hand-open-x)) rotate(var(--hand-rotate));
 }
 
 .paper-content {
@@ -1235,19 +1259,21 @@
   }
 
   .dossier-pullout {
+    /*
+      Tablet rig (1180px and below).
+      Change the same controls here for tablet-only positioning.
+    */
+    --paper-width: min(81%, 616px);
+    --paper-closed-x: 0;
+    --paper-closed-y: -70px;
+    --paper-closed-rotate: 0deg;
+    --paper-open-x: 0;
+    --paper-open-y: 0;
+    --paper-open-rotate: 0deg;
     position: relative;
     left: 0;
     top: 0;
-    width: min(81%, 616px);
     margin: 1.5rem auto 0;
-  }
-
-  .paper-shell {
-    transform: translateY(-70px) scale(0.97);
-  }
-
-  .dossier-scene.is-open .paper-shell {
-    transform: translateY(0) scale(1);
   }
 }
 
@@ -1296,10 +1322,16 @@
     line-height: 1.2;
   }
 
-  .hand-art {
-    top: 0;
-    left: -2%;
-    width: 51%;
+  .dossier-pullout {
+    /*
+      Mobile rig (780px and below).
+      Use these controls when you want the hand or paper to sit differently
+      on phones without affecting tablet or desktop.
+    */
+    --paper-aspect: 4 / 5;
+    --hand-top: -21%;
+    --hand-left: 27%;
+    --hand-width: 51%;
   }
 }
 
@@ -1318,6 +1350,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.55rem;
+    z-index: 30;
   }
 
   .folder-tab,
@@ -1326,6 +1359,7 @@
   .dossier-scene.is-open .folder-tab,
   .folder-tab.is-active {
     position: static;
+    z-index: 31;
     width: 100%;
     min-height: 3.25rem;
     padding: 0.55rem 0.75rem;
@@ -1361,9 +1395,6 @@
       inset 0 -6px 0 rgba(0, 0, 0, 0.05);
   }
 
-  .hand-art {
-    top: 0;
-  }
 }
 
 @media (max-width: 480px) {
@@ -1377,7 +1408,7 @@
   }
 
   .dossier-pullout {
-    width: min(94%, 500px);
+    --paper-width: min(94%, 500px);
     margin-top: 0.75rem;
   }
 }
