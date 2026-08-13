@@ -1070,6 +1070,66 @@ body {
   height: var(--piano-width);
   isolation: isolate;
 }
+.piano-nav__particles {
+  position: absolute;
+  inset: -5rem -8rem -5rem -22rem;
+  z-index: 2;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.piano-nav.is-open .piano-nav__particles { opacity: 1; }
+.piano-nav__particle {
+  position: absolute;
+  display: block;
+  color: #444;
+  font-family: Montserrat, sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  text-shadow: 0.15rem 0.15rem 0 rgba(38, 38, 38, 0.12);
+  animation-play-state: paused;
+  animation-fill-mode: both;
+}
+.piano-nav.is-open .piano-nav__particle { animation-play-state: running; }
+.piano-nav__particle--face {
+  top: 3%;
+  left: 8%;
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  animation: piano-face-drift 4.8s ease-in-out 0.2s infinite alternate;
+}
+.piano-nav__particle--note {
+  top: 27%;
+  left: 70%;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  animation: piano-note-float 3.8s ease-in-out 0.15s infinite alternate;
+}
+.piano-nav__particle--note-two {
+  top: 64%;
+  left: 20%;
+  animation-delay: 0.8s;
+  animation-duration: 4.2s;
+}
+.piano-nav__particle--sheet {
+  top: 92%;
+  left: 34%;
+  font-family: Georgia, serif;
+  font-size: clamp(0.95rem, 1.7vw, 1.3rem);
+  letter-spacing: 0.08em;
+  animation: piano-sheet-drift 5.5s ease-in-out 0.4s infinite alternate;
+}
+@keyframes piano-face-drift {
+  from { opacity: 0; transform: translate(-0.5rem, 0.5rem) rotate(-8deg); }
+  to { opacity: 0.85; transform: translate(1.2rem, -0.7rem) rotate(5deg); }
+}
+@keyframes piano-note-float {
+  from { opacity: 0; transform: translate(0.5rem, 1rem) rotate(-10deg); }
+  to { opacity: 0.8; transform: translate(2rem, -1.2rem) rotate(12deg); }
+}
+@keyframes piano-sheet-drift {
+  from { opacity: 0; transform: translate(-1rem, 0) rotate(-4deg); }
+  to { opacity: 0.72; transform: translate(2.5rem, -1.5rem) rotate(3deg); }
+}
 .piano-nav__toggle {
   position: absolute;
   inset: 0;
@@ -1119,7 +1179,7 @@ body {
 }
 .piano-nav__key {
   position: absolute;
-  right: 8%;
+  right: calc(var(--piano-width) * 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1176,6 +1236,7 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .piano-nav__key { transition-duration: 0.01ms; }
+  .piano-nav__particle { animation: none; opacity: 0.72; }
 }
 .dossier-scene {
   position: relative;
