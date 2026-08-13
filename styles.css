@@ -1059,7 +1059,7 @@ body {
   scroll-margin-top: 1.5rem;
 }
 .piano-nav {
-  --piano-width: clamp(6.5rem, 10vw, 2rem);
+  --piano-width: clamp(4rem, 10vw, 6.5rem);
   --key-width: clamp(11rem, 22vw, 18rem);
   position: fixed;
   z-index: 60;
@@ -1119,7 +1119,7 @@ body {
 }
 .piano-nav__key {
   position: absolute;
-  right: 9%;
+  right: 8%;
   display: flex;
   align-items: center;
   justify-content: center;
